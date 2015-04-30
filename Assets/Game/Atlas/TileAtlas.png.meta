@@ -1,0 +1,278 @@
+fileFormatVersion: 2
+guid: c62b083292749ab4a81f9913604606e9
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: TileAtlas_0
+    21300002: TileAtlas_2
+    21300004: TileAtlas_3
+    21300006: TileAtlas_4
+    21300008: TileAtlas_5
+    21300010: TileAtlas_6
+    21300012: TileAtlas_7
+    21300014: TileAtlas_8
+    21300016: TileAtlas_9
+    21300018: TileAtlas_10
+    21300020: TileAtlas_11
+    21300022: TileAtlas_12
+    21300024: TileAtlas_13
+    21300026: TileAtlas_14
+    21300028: TileAtlas_15
+    21300030: TileAtlas_16
+    21300032: TileAtlas_17
+    21300034: TileAtlas_18
+    21300036: TileAtlas_19
+    21300038: TileAtlas_20
+    21300040: TileAtlas_21
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: 2
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: TileAtlas_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 451
+        width: 63
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_2
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 367
+        width: 84
+        height: 91
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 360
+        width: 91
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_4
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 276
+        width: 88
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_5
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 345
+        width: 83
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 266
+        width: 91
+        height: 93
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_7
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 183
+        width: 88
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_8
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 261
+        width: 88
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 184
+        width: 112
+        height: 81
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_10
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 183
+        width: 103
+        height: 77
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_11
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 215
+        width: 129
+        height: 31
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_12
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 183
+        width: 129
+        height: 31
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 106
+        width: 118
+        height: 77
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_14
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 106
+        width: 108
+        height: 76
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_15
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 106
+        width: 93
+        height: 73
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_16
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 138
+        width: 154
+        height: 31
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_17
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 106
+        width: 154
+        height: 31
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 132
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_19
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 0
+        width: 120
+        height: 101
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_20
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 0
+        width: 107
+        height: 92
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TileAtlas_21
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 0
+        width: 98
+        height: 92
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

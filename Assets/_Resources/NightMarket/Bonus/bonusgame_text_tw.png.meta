@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: 3c17319f2d9cd5149993541407ad2864
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bonusgame_text_tw_0
+    21300002: bonusgame_text_tw_1
+    21300004: bonusgame_text_tw_2
+    21300006: bonusgame_text_tw_3
+    21300008: bonusgame_text_tw_5
+    21300010: bonusgame_text_tw_6
+    21300012: bonusgame_text_tw_7
+    21300014: bonusgame_text_tw_8
+    21300016: bonusgame_text_tw_9
+    21300018: bonusgame_text_tw_10
+    21300020: bonusgame_text_tw_11
+    21300022: bonusgame_text_tw_14
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: 2
+    aniso: 4
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: .5
+  alphaIsTransparency: 1
+  textureType: 5
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: bonusgame_text_tw_0
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 483
+        width: 128
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_1
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 483
+        width: 179
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 453
+        width: 474
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_3
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 425
+        width: 295
+        height: 27
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 331
+        width: 240
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_6
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 337
+        width: 94
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_7
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 260
+        width: 183
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_8
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 273
+        width: 57
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_9
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 261
+        width: 202
+        height: 64
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_10
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 200
+        width: 160
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_11
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 206
+        width: 216
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonusgame_text_tw_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 136
+        width: 505
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: d42238612daa3f6458baeefa4652aca0
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bonus_II_logo
+    21300002: round
+    21300004: bonus_II_bg
+    21300006: ending_Scence
+    21300008: rules_bg
+    21300010: hole
+    21300012: info_bg
+    21300014: select
+    21300016: gameplate
+    21300018: round_light
+    21300020: info_bg_02
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 2
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 1
+  alphaIsTransparency: 1
+  textureType: 5
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: 47
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: bonus_II_logo
+      rect:
+        serializedVersion: 2
+        x: 1397
+        y: 728
+        width: 454
+        height: 211
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: round
+      rect:
+        serializedVersion: 2
+        x: 1793
+        y: 652
+        width: 56
+        height: 75
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bonus_II_bg
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 968
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ending_Scence
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 107
+        width: 1396
+        height: 860
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: rules_bg
+      rect:
+        serializedVersion: 2
+        x: 1397
+        y: 940
+        width: 651
+        height: 27
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hole
+      rect:
+        serializedVersion: 2
+        x: 1852
+        y: 787
+        width: 149
+        height: 152
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: info_bg
+      rect:
+        serializedVersion: 2
+        x: 1397
+        y: 594
+        width: 330
+        height: 133
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: select
+      rect:
+        serializedVersion: 2
+        x: 1398
+        y: 389
+        width: 204
+        height: 204
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameplate
+      rect:
+        serializedVersion: 2
+        x: 1603
+        y: 495
+        width: 140
+        height: 98
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: round_light
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 652
+        width: 64
+        height: 75
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: info_bg_02
+      rect:
+        serializedVersion: 2
+        x: 1398
+        y: 255
+        width: 599
+        height: 133
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
