@@ -117,7 +117,6 @@ public class SlotMachine : MonoBehaviour {
 
         bBreak = false;
         bAutoBreak = false;
-
     }
 
     // 慢慢的自動停止

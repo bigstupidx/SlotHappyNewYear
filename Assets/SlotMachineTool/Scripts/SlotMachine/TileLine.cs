@@ -11,6 +11,8 @@ public class TileLine : MonoBehaviour {
     private bool sw_Move_all;
 
     private bool[] sw_Move;
+    private bool[] dir_down;
+
     private bool sw_Break;
     
     private bool btunround;
@@ -25,6 +27,7 @@ public class TileLine : MonoBehaviour {
         //this.sw_Move = false;
 
         sw_Move = new bool[8];
+        dir_down = new bool[8];
 
         this.sw_Move_all = false;
         this.sw_Break = false;
@@ -59,13 +62,72 @@ public class TileLine : MonoBehaviour {
     {
         return this.fspeed;
     }
+    public void Move(int idx)
+    {
+        float dis = this.fspeed * Time.deltaTime;
 
+        float pos_new , limit;
+        if (dir_down[idx])
+        {
+            pos_new = tileObjects[idx].transform.localPosition.y - dis;
+            limit = (-825.0f - 50.0f) + idx * 165.0f;
+        }
+        else
+        {
+            pos_new = tileObjects[idx].transform.localPosition.y + dis;
+            limit = -825.0f + idx * 165.0f;
+        }
+
+        if (sw_Break)
+        {
+
+            tileObjects[idx].SetPosition(pos_new);
+
+            if (dir_down[idx])
+            {
+                if (pos_new <= limit)
+                {
+                    dir_down[idx] = false;
+                }
+            }
+            else
+            {
+                if (pos_new >= limit)
+                {
+                    tileObjects[idx].SetPosition(limit);
+
+                    sw_Move[idx] = false;
+                    cnt_stop++;
+
+                    if (cnt_stop == 8)
+                    {
+                        sw_Move_all = false;
+                        tilefinishspin();
+                    }
+                }
+
+            }
+
+        }
+        else
+        {
+            tileObjects[idx].SetPosition(pos_new);
+
+            if (pos_new < -165.0f)
+            {
+                btunround = true;
+            }
+
+        }
+    }
+    /*
     public void Move(int idx)
     {
         float dis = this.fspeed * Time.deltaTime;
 
         float pos_new = tileObjects[idx].transform.localPosition.y - dis;
-        float limit = -825.0f + idx * 165.0f;
+        float limit_1 = (-825.0f -50.0f)+ idx * 165.0f;
+        float limit_2 = -825.0f + idx * 165.0f;
 
         if (sw_Break)
         {
@@ -98,7 +160,7 @@ public class TileLine : MonoBehaviour {
 
         }
     }
-
+    */
     public void StartRun()
     {
         sw_Move_all = true;
@@ -106,7 +168,9 @@ public class TileLine : MonoBehaviour {
         for (int i = 0; i < 8; i++)
         {
             sw_Move[i] = true;
+            dir_down[i] = true;
         }
+
 
         this.sw_Break = false;
         this.btunround = false;
