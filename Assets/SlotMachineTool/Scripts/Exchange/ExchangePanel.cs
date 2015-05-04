@@ -51,7 +51,11 @@ public class ExchangePanel : MonoBehaviour {
     public UIWidget window_Tutorial;
     public GameObject[] Tutorial_pages;
 
+    // 目前教學頁數
     int idx_tutorial;
+
+    // 當收到 BalanceExchange 是否需要開分
+    bool bNeedCreateExchange;
     
     void Start()
     {
@@ -61,6 +65,8 @@ public class ExchangePanel : MonoBehaviour {
         window_exit.alpha = 0.0f;
 
         Cal_BalanceMoney = "0.0";
+
+        bNeedCreateExchange = false;
     }
 
     // Invoke this method when use ScoreExchange.
@@ -226,13 +232,20 @@ public class ExchangePanel : MonoBehaviour {
     {
         gameObject.SetActive(false);
 
-        if (idx_ratio_keep != idx_ratio)
+        // 分數小於 0 ，什麼事都不做。
+        if (Cal_ExchangScore > 0)
         {
-            //LuaManager_new.Instance().CallLuaFuction("DoCreateExchange", true, ratiobases[idx_ratio], Cal_ExchangScore);
-        }
-        else
-        {
-            //LuaManager_new.Instance().CallLuaFuction("DoCreateExchange", false, ratiobases[idx_ratio], Cal_ExchangScore);
+            if (idx_ratio_keep != idx_ratio)
+            {
+                bNeedCreateExchange = true;
+                RtmpC2S.creditExchange(ratiobases[idx_ratio], Cal_ExchangScore.ToString());
+                //LuaManager_new.Instance().CallLuaFuction("DoCreateExchange", true, ratiobases[idx_ratio], Cal_ExchangScore);
+            }
+            else
+            {
+                bNeedCreateExchange = false;
+                //LuaManager_new.Instance().CallLuaFuction("DoCreateExchange", false, ratiobases[idx_ratio], Cal_ExchangScore);
+            }
         }
     }
     

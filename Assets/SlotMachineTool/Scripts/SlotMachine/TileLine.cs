@@ -70,7 +70,7 @@ public class TileLine : MonoBehaviour {
         if (dir_down[idx])
         {
             pos_new = tileObjects[idx].transform.localPosition.y - dis;
-            limit = (-825.0f - 50.0f) + idx * 165.0f;
+            limit = (-825.0f - 50.0f) + idx * 165.0f;            
         }
         else
         {

@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
 using LitJson;
 
@@ -41,26 +39,28 @@ public class LoadingManager : RtmpS2CReceiverBase
         RtmpC2S.Connect();
     }
 
-    public override void OnClose()
+    public override void OnClose(string str)
     {
         print("Server disconnect !");
     }
-    public override void OnConnect()
+    public override void OnConnect(string str)
     {
         progress_now = 0.20f;
-        RtmpC2S.LoginBySid("5402");
+        print("RtmpC2S.LoginBySid(5835);");
+        //RtmpC2S.LoginBySid("5402");
+        RtmpC2S.LoginBySid("5835"); // 喜福 5835
     }
-    public override void OnLogin()
+    public override void OnLogin(string str)
     {
         progress_now = 0.40f;
         print("Login Success !");
     }
-    public override void OnGetMachineList()
+    public override void OnGetMachineList(string str)
     {
         progress_now = 0.60f;
         RtmpC2S.TakeMachine(null);
     }
-    public override void OnTakeMachine()
+    public override void OnTakeMachine(string str)
     {
         print("OnTakeMachine");
         progress_now = 0.80f;
@@ -68,7 +68,6 @@ public class LoadingManager : RtmpS2CReceiverBase
     }
     public override void OnonLoadInfo2(string str)
     {
-        print("OnonLoadInfo2 " + str);
         progress_now = 1.0f;
 
         JsonData jd = JsonMapper.ToObject(str);
@@ -80,5 +79,45 @@ public class LoadingManager : RtmpS2CReceiverBase
 
         // 儲存資料
         Global_UserInfo.Gl_onloadInfo = new Global_UserInfo.onloadInfo(str_balance, str_dbase, str_loginname, str_base);
+    }
+
+    public override void onCreditExchange(string str)
+    {
+    }
+
+    public override void onBalanceExchange(string str)
+    {
+    }
+
+    public override void onBeginGame(string str)
+    {
+    }
+
+    public override void onEndGame(string str)
+    {
+    }
+
+    public override void updateJP(string str)
+    {
+    }
+
+    public override void updateJPList(string str)
+    {
+    }
+
+    public override void onHitJackpot(string str)
+    {
+    }
+
+    public override void updateMarquee(string str)
+    {
+    }
+
+    public override void onHitFree(string str)
+    {
+    }
+
+    public override void onMachineLeave(string str)
+    {
     }
 }
