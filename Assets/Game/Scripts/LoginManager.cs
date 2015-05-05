@@ -83,7 +83,17 @@ public class LoginManager : MonoBehaviour
 
                 window_loginMsg.Open();
                 window_loginMsg.SetContext("GetDomin.. ");
-                StartCoroutine(GetDomain(url , str_acc , str_pw));
+
+                string[] infos_acc = str_acc.Split('@');
+
+                string user_acc = infos_acc[0];
+                string domaincode = infos_acc[1];
+
+                // 簡單版登入
+                string url_1 = "http://bm.esballgame.com/app/WebService/view/display.php/MobileLogin2?username=" + user_acc + "& password=" + str_pw + "&domaincode=" + domaincode + " & ip=&platform=anfone";
+
+                StartCoroutine(SimpleLogin(url_1));
+                //StartCoroutine(GetDomain(url , str_acc , str_pw));
             }
             else
             {
@@ -95,6 +105,46 @@ public class LoginManager : MonoBehaviour
         }
     }
 
+    IEnumerator SimpleLogin(string url)
+    {
+
+        using (WWW www = new WWW(url))
+        {
+
+            yield return www;
+
+            if(!string.IsNullOrEmpty(www.error))
+            {
+                print("www.error " + www.error);
+            }
+            else
+            {
+                JsonData jd = JsonMapper.ToObject(www.text);
+
+                string sid = (jd["data"]["session_token"]).ToString();
+                string hallid = (jd["data"]["HallID"]).ToString();
+                string domain = (jd["data"]["DomainList"][0]).ToString();
+                string ip = (jd["data"]["HallID"]).ToString();
+
+                string str_show = "";
+
+                str_show += "sid : " + sid + "\n";
+                str_show += "hallid : " + hallid + "\n";
+                str_show += "domain : " + domain + "\n";
+
+            }
+        }
+    }
+    {"result":true,
+    "data":
+    {"session_token":"H9155d77z8c6ha4nz3d4kpfbz8mjehgz012",
+    "UserID":65682577,"UserName":"mobile02","HallID":3819946,
+    "Balance":161487.41,"SCRate":"0","CORate":"0","SARate":"0",
+    "AGRate":"100","Currency":"RMB","payway":"cash","State":"N",
+    "DomainList":["bm.bbfungames.com"],
+    "ServerIP":{"HallID":"3819946","ip":"103.252.135.2:443","lineType":"1"}
+}
+}
     IEnumerator GetDomain(string url , string str_acc, string str_pw)
     {
 

@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 
 public class ExchangePanel : MonoBehaviour {
-    
+
+    IExchange2GM Iexchange2GM;
+
     // 顯示帳號登入名稱
     public UILabel Content_AccountName;
     // 顯示目前餘額
@@ -33,13 +35,14 @@ public class ExchangePanel : MonoBehaviour {
 
     private int Cal_ExchangScore;
 
-
     public UIWidget window_other;
     public UIWidget window_number;
     public UIWidget window_exchangeratio;
     public UIWidget window_exit;
 
-    
+    // 50,000 5,000 500 按鈕
+    public UIButton[] buts_quickselect;
+     
     // *****************************/
     // 目前比值
     string[] ratiobases;
@@ -56,9 +59,12 @@ public class ExchangePanel : MonoBehaviour {
 
     // 當收到 BalanceExchange 是否需要開分
     bool bNeedCreateExchange;
-    
+    bool bOpenCheckout;
+
     void Start()
     {
+
+        Iexchange2GM = GameManager.Instance;
 
         CloseOtherWindow();
 
@@ -67,6 +73,8 @@ public class ExchangePanel : MonoBehaviour {
         Cal_BalanceMoney = "0.0";
 
         bNeedCreateExchange = false;
+        bOpenCheckout = false;
+
     }
 
     // Invoke this method when use ScoreExchange.
@@ -99,6 +107,9 @@ public class ExchangePanel : MonoBehaviour {
     public void OpenExchangeWindow()
     {
         gameObject.SetActive(true);
+
+        // 保證重新每次開啟畫面都不會是其他介面
+        CloseOtherWindow();
     }
 
     public void OnButton500()
@@ -141,27 +152,30 @@ public class ExchangePanel : MonoBehaviour {
 
     public void OnButton50000()
     {
-        Cal_ExchangScore += 50000;
+        try
+        {
+            Cal_ExchangScore += 50000;
 
-        if (Cal_ExchangScore + Cal_NowScore > 500000)
-            Cal_ExchangScore = 500000 - Cal_NowScore;
+            if (Cal_ExchangScore + Cal_NowScore > 500000)
+                Cal_ExchangScore = 500000 - Cal_NowScore;
 
-        string[] values = Cal_BalanceMoney.Split('.');
+            string[] values = Cal_BalanceMoney.Split('.');
 
-        int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+            int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
 
-        if (max_ExchangeScore + Cal_NowScore > 500000)
-            max_ExchangeScore = 500000 - Cal_NowScore;
+            if (max_ExchangeScore + Cal_NowScore > 500000)
+                max_ExchangeScore = 500000 - Cal_NowScore;
 
-        float slider_value = (float)Cal_ExchangScore / max_ExchangeScore;
+            float slider_value = (float)Cal_ExchangScore / max_ExchangeScore;
 
-        Content_Slider.value = slider_value;
+            Content_Slider.value = slider_value;
+        }
+        catch(Exception EX)
+        {
+            print("OnButton50000 EX " + EX);
+        }
     }
-
-    public void OnButtonOther()
-    {
-        Content_Slider.value = 1.0f;
-    }
+        
     
     public void OnSliderValueChange(object value)
     {
@@ -192,6 +206,8 @@ public class ExchangePanel : MonoBehaviour {
         string[] values_1 = new_BalanceMoney.Split('.');
 
         this.SetUserBalance(new_BalanceMoney);
+
+        UpdateQuickSelectButtonsState();
     }
 
     private string String_Subtraction(string value, int subtrahend)
@@ -220,6 +236,8 @@ public class ExchangePanel : MonoBehaviour {
     {
         window_other.alpha = 1.0f;
         window_number.alpha = 0.0f;
+
+        Content_Slider.value = 1.0f;
     }
 
     public void CloseOtherWindow()
@@ -232,29 +250,38 @@ public class ExchangePanel : MonoBehaviour {
     {
         gameObject.SetActive(false);
 
-        // 分數小於 0 ，什麼事都不做。
-        if (Cal_ExchangScore > 0)
+        if (idx_ratio_keep != idx_ratio)
         {
-            if (idx_ratio_keep != idx_ratio)
+            print("比例不一樣 idx_ratio_keep " + idx_ratio_keep + " idx_ratio " + idx_ratio + " Cal_ExchangScore " + Cal_ExchangScore);
+
+            if (Cal_ExchangScore > 0)
             {
+                // 表示會收到 開洗分事件
                 bNeedCreateExchange = true;
-                RtmpC2S.creditExchange(ratiobases[idx_ratio], Cal_ExchangScore.ToString());
-                //LuaManager_new.Instance().CallLuaFuction("DoCreateExchange", true, ratiobases[idx_ratio], Cal_ExchangScore);
+                Iexchange2GM.BalanceExchange(true);
             }
             else
             {
-                bNeedCreateExchange = false;
-                //LuaManager_new.Instance().CallLuaFuction("DoCreateExchange", false, ratiobases[idx_ratio], Cal_ExchangScore);
+                // 將不會收到任何事件，必須將比例復原
+
+                idx_ratio = idx_ratio_keep;
+                idx_ratio_temp = idx_ratio_keep;
+
+                Context_Proportion.text = ratiobases[idx_ratio];
+                exchangewindow_Proportion.text = ratiobases[idx_ratio];
             }
         }
-    }
+        else
+        {
+            print("比例一樣 rate " + ratiobases[idx_ratio] + " , Cal_ExchangScore " + Cal_ExchangScore);
+
+            if (Cal_ExchangScore > 0)
+            {
+                Iexchange2GM.CreateExchange(ratiobases[idx_ratio], Cal_ExchangScore);
+            }
+        }
+    }    
     
-
-    public void OnClick_CashOut()
-    {
-
-    }
-
     public void OnCreditExchange(string balance,string betbase,string credit)
     {
 
@@ -289,17 +316,24 @@ public class ExchangePanel : MonoBehaviour {
 
     // exit (check out)
     // ************************************************
-    public void OnClick_DoBalanceExchange()
+    public void OnClick_Checkout()
     {
         UIBut_checkout.enabled = false;
+
+        // 洗分後執行開始
+        bOpenCheckout = true;
 
         // 如果目前分數大於0
         if (Cal_NowScore > 0)
         {
+            print("執行 洗分後 進入結算面板");
+            Iexchange2GM.BalanceExchange(false);
+
             //LuaManager_new.Instance().CallLuaFuction("DoBalanceExchange");
         }
         else
         {
+            print("執行 不洗分 進入結算面板");
             OnBalanceExchange("0", "0", Cal_BalanceMoney);
         }
     }
@@ -307,27 +341,52 @@ public class ExchangePanel : MonoBehaviour {
     // TransCredit 遊戲分數，amount 兌換金額，balance 可用餘額
     public void OnBalanceExchange(string transCredit, string amount, string balance)
     {
-        print("OnBalanceExchange " + transCredit + amount + balance);
+        //print("OnBalanceExchange " + transCredit + amount + balance);
 
-        Context_Exit_NowScore.text      = transCredit;
-        Context_Exit_ExchangeScore.text = amount;
-        Context_Exit_Balance.text       = balance;
+        try
+        { 
+            if (bNeedCreateExchange)
+            {
+                bNeedCreateExchange = false;
+                
+                Iexchange2GM.CreateExchange(ratiobases[idx_ratio], Cal_ExchangScore);
+                //RtmpC2S.creditExchange(ratiobases[idx_ratio], Cal_ExchangScore.ToString());
+            }
+            else if (bOpenCheckout)
+            {
+                bOpenCheckout = false;
+                
+                // 開啟結算面板
+                window_exit.alpha = 1.0f;
+            }
+
+            // 結算面板的 Label
+            Context_Exit_NowScore.text = transCredit;
+            Context_Exit_ExchangeScore.text = amount;
+            Context_Exit_Balance.text = balance;
 
 
-        // 設定餘額
-        Content_BalanceMoney.text = balance;
-        Cal_BalanceMoney = balance;
+            // 設定餘額
+            Content_BalanceMoney.text = balance;
+            Cal_BalanceMoney = balance;
 
-        // 目前顯示分數
-        Content_NowScore.text = "0";
-        Cal_NowScore = 0;
+            // 目前顯示分數
+            Content_NowScore.text = "0";
+            Cal_NowScore = 0;
 
-        // 設定兌換分數
-        Content_ExchangeScore.text = "0";
-        Cal_ExchangScore = 0;
+            // 設定兌換分數
+            Content_ExchangeScore.text = "0";
+            Cal_ExchangScore = 0;
 
-        // 開啟結算面板
-        window_exit.alpha = 1.0f;
+            // 滑桿值歸零
+            Content_Slider.value = 0.0f;
+
+            ShowAllInfo();
+        }
+        catch(Exception EX)
+        {
+            print("OnBalanceExchange EX " + EX);
+        }
     }
 
     public void OnClick_ResumeGame()
@@ -336,10 +395,6 @@ public class ExchangePanel : MonoBehaviour {
         window_exit.alpha = 0.0f;
     }
 
-    public void OnClick_CheckoutQuitGame()
-    {
-
-    }
     // ************************************************
 
     public void OnClick_OpenExchangeRatio()
@@ -451,5 +506,78 @@ public class ExchangePanel : MonoBehaviour {
         string[] values = str.Split(':');
 
         return (float)(Convert.ToDouble(values[1]) / Convert.ToDouble(values[0]));
+    }
+
+    // 更新快速選擇按鈕狀態
+    private void UpdateQuickSelectButtonsState()
+    {
+        // 500 5000 50000
+        bool[] bs_state = { true, true, true };
+
+        // 五十萬分限制
+        int delta_score = 500000 - (Cal_NowScore + Cal_ExchangScore);
+
+        if(delta_score < 50000)
+        {
+            bs_state[2] = false;
+            if (delta_score < 5000)
+            {
+                bs_state[1] = false;
+                if (delta_score < 500)
+                    bs_state[0] = false;
+            }
+        }
+
+        // 可用金額限制
+
+        // integr [0] , float [1]
+        string[] values = Content_BalanceMoney.text.Split('.');
+        int ibalance = Convert.ToInt32(values[0]);
+
+        if (ibalance < 50000)
+        {
+            bs_state[2] = false;
+            if (ibalance < 5000)
+            {
+                bs_state[1] = false;
+                if (ibalance < 500)
+                    bs_state[0] = false;
+            }
+        }
+
+        // 500 5000 50000
+        for (int i = 0; i < 3; i++)
+        {
+            if (bs_state[i])
+            {
+                buts_quickselect[i].enabled = true;
+                buts_quickselect[i].SetState(UIButtonColor.State.Normal, false);
+            }
+            else
+            {
+                buts_quickselect[i].enabled = false;
+                buts_quickselect[i].SetState(UIButtonColor.State.Disabled, false);
+            }
+        }
+    }
+
+    // Debug 用
+    private void ShowAllInfo()
+    {
+        string str = "";
+
+        // 設定餘額
+        str += "Content_BalanceMoney.text : " + Content_BalanceMoney.text + "\n";
+        str += "Cal_BalanceMoney : " + Cal_BalanceMoney + "\n";
+
+        // 目前顯示分數
+        str += "Content_NowScore.text : " + Content_NowScore.text + "\n";
+        str += "Cal_NowScore : " + Cal_NowScore + "\n";
+
+        // 設定兌換分數
+        str += "Content_ExchangeScore.text : " + Content_ExchangeScore.text + "\n";
+        str += "Cal_ExchangScore : " + Cal_ExchangScore + "\n";
+
+        print("ShowAllInfo : \n" + str);
     }
 }
