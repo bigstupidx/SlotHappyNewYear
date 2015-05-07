@@ -1,11 +1,15 @@
 ﻿
+using UnityEngine;
+
 public class RtmpC2S
 {
+    /*
     public static string sid = "";
     public static string ip = "";
     public static string userid = "";
     public static string hallid = "";
     public static string gamecode = "";
+    */
 
 #if UNITY_IOS || UNITY_IPHONE
 
@@ -77,12 +81,18 @@ public class RtmpC2S
     static public void Connect()
     {
         UnityEngine.Debug.Log("Connect");
+        string sid = LoginManager.loginInfo.SID;
+        string ip = LoginManager.loginInfo.IP;
+
+		 Debug.Log("sid is " + sid + " ip is " + ip);
         myPlugin3.CallAndroidRtmpDo(sid, "rtmp://" + ip + "/SlotMachine");
         //myPlugin3.CallAndroidRtmpDo(sid, "rtmp://103.240.216.205:1935/SlotMachine");
     }
 
     static public void LoginBySid(string gamecode)
     {
+        string sid = LoginManager.loginInfo.SID;
+
         myPlugin3.CallAndroidStatic4("loginBySid", sid, gamecode);
     }
     static public void TakeMachine(string setno)
@@ -100,18 +110,22 @@ public class RtmpC2S
 		myPlugin3.CallAndroidStatic4("creditExchange",rate,score);
 	}
 
-    static public void BeginGame(int BetPerLine, int SelectLine)
-	{
-        myPlugin3.CallAndroidStatic4 ("beginGame2",sid,BetPerLine.ToString(),SelectLine.ToString());
+    static public void BeginGame(string apiname,int BetPerLine, int SelectLine)
+    {
+        string sid = LoginManager.loginInfo.SID;
+        //myPlugin3.CallAndroidStatic4 ("beginGame2",sid,BetPerLine.ToString(),SelectLine.ToString());
+        myPlugin3.CallAndroidStatic4(apiname, sid, BetPerLine.ToString(), SelectLine.ToString());
     }
 
     static public void EndGame(string wagersID)
-	{
+    {
+        string sid = LoginManager.loginInfo.SID;
 		myPlugin3.CallAndroidStatic4 ("endGame",sid,wagersID);
 	}
 
     static public void HitFree(string wagersID,int itemID)
-	{
+    {
+        string sid = LoginManager.loginInfo.SID;
 		myPlugin3.CallAndroidStatic4 ("hitFree",sid,wagersID,itemID.ToString());
 	}
 
@@ -130,8 +144,7 @@ public class RtmpC2S
 
     static public void MachineLeave()
     {
-        UnityEngine.Debug.Log("machineLeave " + userid + " " + hallid + " " + gamecode);
-        myPlugin3.CallAndroidStatic4("machineLeave", userid , hallid, gamecode);
+        //myPlugin3.CallAndroidStatic4("machineLeave", userid , hallid, gamecode);
     }
 
     // end the plugin loop.

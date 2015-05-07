@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
+
 using LitJson;
-using System;
+using System.Collections;
 
 public class GameManager : RtmpS2CReceiverBase , IExchange2GM
 {
@@ -13,6 +14,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
     public GUIManager guiManager;
 
     public static GameManager Instance;
+
 
     void Awake()
     {
@@ -142,4 +144,36 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
 
         RtmpC2S.BalanceExchange();
     }
+
+    void IExchange2GM.CashoutQuit()
+    {
+        string domain = LoginManager.loginInfo.Domain;
+        string accountname = LoginManager.loginInfo.AccountName;
+
+        string url = "http://" + domain + "/app/WebService/view/display.php/Logout?username=" + accountname;
+
+		RtmpC2S.Close ();
+        StartCoroutine(DoLoginout(url));
+    }
+
+    IEnumerator DoLoginout(string url)
+    {
+        using (WWW www = new WWW(url))
+        {
+
+            yield return www;
+
+            if(!string.IsNullOrEmpty(www.error))
+            {
+                print(www.error);
+            }
+            else
+            {
+                print(www.text);
+
+                Application.LoadLevel("Login");
+            }
+        }
+    }
+    
 }

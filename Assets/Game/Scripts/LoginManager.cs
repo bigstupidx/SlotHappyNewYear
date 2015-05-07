@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,8 +8,32 @@ using System.Text;
 
 using LitJson;
 
+public struct LoginInfo
+{
+    public string AccountName;
+    public string Domain;
+    public string SID;
+    public string HallID;
+    public string IP;
+
+    
+    public LoginInfo(string _accountname,
+        string _domain,
+        string _sid,
+        string _hallid,
+        string _ip)
+    {
+        AccountName = _accountname;
+        Domain = _domain;
+        SID = _sid;
+        HallID = _hallid;
+        IP = _ip;
+    }
+}
 public class LoginManager : MonoBehaviour
 {
+
+    static public LoginInfo loginInfo;
 
     string[] esball_ips = { "bm.ago545q6e5.com" ,
                             "bm.efr465dwd789.com",
@@ -57,7 +82,6 @@ public class LoginManager : MonoBehaviour
         window_loginMsg.Close();
     }
 
-
     public void OnClick_UserLogin(string str_acc , string str_pw)
     {
 
@@ -67,7 +91,7 @@ public class LoginManager : MonoBehaviour
             sw_allowbut_login = false;
             
             string[] infos = str_acc.Split('@');
-            int rand = Random.Range(0, 9);
+            int rand = UnityEngine.Random.Range(0, 9);
 
             // 檢查帳號格式
             if (infos.Length == 2 && str_pw.Length != 0)
@@ -79,21 +103,27 @@ public class LoginManager : MonoBehaviour
                 string url = "http://" + esball_ips[rand] + "/amfphp/json.php/Member.getDomainList/" + infos[1];
                 //string url = "http://bm.efr465dwd789.com/app/WebService/view/display.php/GetDomainList?domaincode=" + infos[1] + "&secret_key=" + secret_key;
 
-                print("url " + url);
+                //print("url " + url);
 
                 window_loginMsg.Open();
-                window_loginMsg.SetContext("GetDomin.. ");
+                //window_loginMsg.SetContext("GetDomin.. ");
 
+                //StartCoroutine(GetDomain(url , str_acc , str_pw));
+                
+                // 簡單版登入
                 string[] infos_acc = str_acc.Split('@');
 
                 string user_acc = infos_acc[0];
                 string domaincode = infos_acc[1];
 
-                // 簡單版登入
-                string url_1 = "http://bm.esballgame.com/app/WebService/view/display.php/MobileLogin2?username=" + user_acc + "& password=" + str_pw + "&domaincode=" + domaincode + " & ip=&platform=anfone";
+                string url_1 = "http://bm.esballgame.com/app/WebService/view/display.php/MobileLogin2?username=" + user_acc + "&password=" + str_pw + "&domaincode=" + domaincode + "&ip=&platform=anfone";
 
+
+                print(url_1);
+
+                window_loginMsg.SetContext("Login.. ");
                 StartCoroutine(SimpleLogin(url_1));
-                //StartCoroutine(GetDomain(url , str_acc , str_pw));
+                
             }
             else
             {
@@ -119,32 +149,56 @@ public class LoginManager : MonoBehaviour
             }
             else
             {
-                JsonData jd = JsonMapper.ToObject(www.text);
+                print(www.text);
 
-                string sid = (jd["data"]["session_token"]).ToString();
-                string hallid = (jd["data"]["HallID"]).ToString();
-                string domain = (jd["data"]["DomainList"][0]).ToString();
-                string ip = (jd["data"]["HallID"]).ToString();
 
-                string str_show = "";
+                try
+                {
+                    JsonData jd = JsonMapper.ToObject(www.text);
 
-                str_show += "sid : " + sid + "\n";
-                str_show += "hallid : " + hallid + "\n";
-                str_show += "domain : " + domain + "\n";
+                    if (((bool)jd["result"]))
+                    {
+                        window_loginMsg.AddContext("Success.\n");
 
+                        string sid = (jd["data"]["session_token"]).ToString();
+                        string hallid = (jd["data"]["HallID"]).ToString();
+                        string domain = (jd["data"]["DomainList"][0]).ToString();
+                        string ip = (jd["data"]["ServerIP"]["ip"]).ToString();
+                        string accountname = (jd["data"]["UserName"]).ToString();
+
+                        string str_show = "";
+
+                        str_show += "sid : " + sid + "\n";
+                        str_show += "hallid : " + hallid + "\n";
+                        str_show += "domain : " + domain + "\n";
+                        str_show += "ip : " + ip + "\n";
+                        str_show += "accountname : " + accountname + "\n";
+
+                        loginInfo = new LoginInfo(accountname, domain, sid, hallid, ip);
+
+
+                        print(str_show);
+
+                        Application.LoadLevel("Loading");
+                    }
+                    else
+                    {
+                        window_loginMsg.Close();
+                        sw_allowbut_login = true;
+                        ShowGetSIDError(jd);
+                    }
+                }
+                catch (Exception EX)
+                {
+                    window_loginMsg.Close();
+                    GenerateMSG_Window("Server 斷線 .");
+                    sw_allowbut_login = true;
+                    print("Server 斷線 . Exception " + EX);
+                }
             }
         }
     }
-    {"result":true,
-    "data":
-    {"session_token":"H9155d77z8c6ha4nz3d4kpfbz8mjehgz012",
-    "UserID":65682577,"UserName":"mobile02","HallID":3819946,
-    "Balance":161487.41,"SCRate":"0","CORate":"0","SARate":"0",
-    "AGRate":"100","Currency":"RMB","payway":"cash","State":"N",
-    "DomainList":["bm.bbfungames.com"],
-    "ServerIP":{"HallID":"3819946","ip":"103.252.135.2:443","lineType":"1"}
-}
-}
+    
     IEnumerator GetDomain(string url , string str_acc, string str_pw)
     {
 
@@ -216,7 +270,7 @@ public class LoginManager : MonoBehaviour
                 JsonData jd = JsonMapper.ToObject(www.text);
                 string ip_esball = jd["data"]["ip"].ToString();
 
-                RtmpC2S.hallid = (jd["data"]["HallID"]).ToString();
+                //RtmpC2S.hallid = (jd["data"]["HallID"]).ToString();
                 
                 string[] infos = str_acc.Split('@');
 
@@ -264,15 +318,15 @@ public class LoginManager : MonoBehaviour
                     string sid = "";
                     sid = jd["data"]["session_token"].ToString();
 
-                    RtmpC2S.userid = (jd["data"]["UserID"]).ToString();
+                    //RtmpC2S.userid = (jd["data"]["UserID"]).ToString();
 
                     if (sid != "")
                     {
 
                         print("sid is " + sid);
 
-                        RtmpC2S.sid = sid;
-                        RtmpC2S.ip = ip;
+                        //RtmpC2S.sid = sid;
+                        //RtmpC2S.ip = ip;
                         Application.LoadLevel("Loading");
                     }
 
@@ -286,6 +340,7 @@ public class LoginManager : MonoBehaviour
             }
         }
     }
+
 
     void ShowGetSIDError(JsonData jd)
     {

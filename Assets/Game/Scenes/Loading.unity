@@ -73,7 +73,6 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
-    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &281953278
 GameObject:
@@ -198,7 +197,7 @@ Transform:
   m_GameObject: {fileID: 716307485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .00138888892, y: .00138888892, z: .00138888892}
+  m_LocalScale: {x: .00177935942, y: .00177935942, z: .00177935942}
   m_Children:
   - {fileID: 281953279}
   - {fileID: 1054305459}
@@ -308,7 +307,7 @@ Transform:
   m_GameObject: {fileID: 1054305458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.33333337, y: 1.33333337, z: 1.33333337}
+  m_LocalScale: {x: 1.24888885, y: 1.24888885, z: 1.24888885}
   m_Children:
   - {fileID: 1154094880}
   m_Father: {fileID: 716307486}

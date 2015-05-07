@@ -316,7 +316,7 @@ public class ExchangePanel : MonoBehaviour {
 
     // exit (check out)
     // ************************************************
-    public void OnClick_Checkout()
+    public void OnClick_OpenCheckout()
     {
         UIBut_checkout.enabled = false;
 
@@ -337,6 +337,12 @@ public class ExchangePanel : MonoBehaviour {
             OnBalanceExchange("0", "0", Cal_BalanceMoney);
         }
     }
+
+	public void OnClick_Cashout()
+	{
+
+		Iexchange2GM.CashoutQuit ();
+	}
 
     // TransCredit 遊戲分數，amount 兌換金額，balance 可用餘額
     public void OnBalanceExchange(string transCredit, string amount, string balance)
