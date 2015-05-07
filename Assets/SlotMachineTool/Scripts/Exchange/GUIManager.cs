@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
-public class GUIManager : MonoBehaviour , ISlotMachine2GUI {
+public class GUIManager : MonoBehaviour
+{
 
     // 滿線滿注
     public UIButton but_maxbetline;
@@ -18,11 +20,11 @@ public class GUIManager : MonoBehaviour , ISlotMachine2GUI {
 
     Dictionary<string, string> table_ratioFindsprite;
 
-	static public ISlotMachine2GUI Islotmachine2GUI;
+	static public GUIManager Instance;
 
 	public void Awake()
 	{
-		Islotmachine2GUI = this;
+        Instance = this;
 	}
 
     public void Start()
@@ -73,11 +75,13 @@ public class GUIManager : MonoBehaviour , ISlotMachine2GUI {
         sp_ExchangeRatio.spriteName = table_ratioFindsprite[str];
     }
 
-	void ISlotMachine2GUI.OnSpin()
-	{
-	}
-
-	void ISlotMachine2GUI.OnStop()
-	{
-	}
+    public void OnClick_Spin()
+    {
+        playbutManager.OnClick_Spin();
+    }
+    
+    public void OnStop()
+    {
+        playbutManager.Allow_Spin();
+    }
 }

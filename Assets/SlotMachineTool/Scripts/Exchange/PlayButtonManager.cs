@@ -8,8 +8,7 @@ public class PlayButtonManager : MonoBehaviour {
     public GameObject GO_Stop;
     public GameObject GO_StopAutoSpin;
     public GameObject GO_GetScore;
-
-    public SlotMachine slotMachine;
+    
     public BetWheel betWheel;
 
     private Dictionary<string, UIButton> Buttons;
@@ -113,14 +112,15 @@ public class PlayButtonManager : MonoBehaviour {
 
     public void OnClick_Spin()
     {
-        Set_Spin_Disable();
         betWheel.Bet_Move_Close();
-        slotMachine.OnClick_StartRun();
+        Set_Spin_Disable();
     }
-
-    public void OnClick_Stop()
+    
+    public void Allow_Spin()
     {
-        slotMachine.OnClick_Stop();
+        Set_Stop_OFF();
+        Set_Spin_Normal();
+        betWheel.Bet_Move_Open();
     }
 
     public void Allow_Stop()
@@ -129,8 +129,4 @@ public class PlayButtonManager : MonoBehaviour {
         Set_Stop_Normal();
     }
 
-    public void Allow_Spin()
-    {
-        betWheel.Bet_Move_Open();
-    }
 }

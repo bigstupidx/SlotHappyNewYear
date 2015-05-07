@@ -3,8 +3,18 @@
 
 using LitJson;
 using System.Collections;
+using System;
 
-public class GameManager : RtmpS2CReceiverBase , IExchange2GM
+public struct GameInfo
+{
+    //可用分數
+    public int score_own;
+    //每線下注分
+    public int score_betoneline;
+    
+}
+
+public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM , IGUIManager2GM
 {
 
     public UIPanel Win_SystemMessage;
@@ -13,8 +23,13 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
 
     public GUIManager guiManager;
 
+    public SlotMachine slotmachine;
+
     public static GameManager Instance;
 
+    GameInfo m_GameInfo;
+
+    JsonData m_jd_onBegingame;
 
     void Awake()
     {
@@ -23,6 +38,8 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
 
     // Use this for initialization
     void Start () {
+
+        m_GameInfo = new GameInfo();
 
         Win_SystemMessage.alpha = 0.0f;
 
@@ -41,6 +58,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
         rtmps2c.IRtmpS2C = this;
     }
 
+    #region Rtmp Listener
     public override void OnClose(string str)
     {
         print("GameManager OnClose");
@@ -96,6 +114,47 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
 
     public override void onBeginGame(string str)
     {
+
+        m_jd_onBegingame = JsonMapper.ToObject(str);
+        
+        if ((bool)m_jd_onBegingame["event"])
+        {
+            JsonData jd_fg = m_jd_onBegingame["data"]["FreeGame"];
+
+            string WagersID = (m_jd_onBegingame["data"]["WagersID"]).ToString();
+
+            if (jd_fg.IsObject)
+            {
+
+            }
+
+            string cards = (m_jd_onBegingame["data"]["Cards"]).ToString();
+            string[] temp_1 = cards.Split(',');
+            string[] tileinfo = new string[15];
+
+            int cnt = 0;
+            for(int i = 0; i < temp_1.Length; i++)
+            {
+                string[] temp = temp_1[i].Split('-');
+
+                for(int j = 0; j < temp.Length; j++)
+                {
+                    tileinfo[cnt++] = temp[j];
+                }
+            }
+
+            slotmachine.SetTileSpriteInfo(tileinfo);
+            slotmachine.OnClick_StartStop();
+
+            // 顯示 停止鍵 可用
+            //guiManager.
+
+            RtmpC2S.EndGame(WagersID);
+        }
+        else
+        {
+            // 錯誤訊息
+        }
     }
 
     public override void onEndGame(string str)
@@ -125,6 +184,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
     public override void onMachineLeave(string str)
     {
     }
+    #endregion
 
     void IExchange2GM.CreateExchange(string ratio, int score)
     {
@@ -156,6 +216,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
         StartCoroutine(DoLoginout(url));
     }
 
+    // 登出 SID
     IEnumerator DoLoginout(string url)
     {
         using (WWW www = new WWW(url))
@@ -176,4 +237,49 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM
         }
     }
     
+
+    void ISlotMachine2GM.OnClick_Spin()
+    {
+        guiManager.OnClick_Spin();
+
+        int betscore = m_GameInfo.score_betoneline * 50;
+
+        if (m_GameInfo.score_own >= betscore)
+        {
+            // 可用分數足夠
+            RtmpC2S.BeginGame("beginGame2", 50, m_GameInfo.score_betoneline);
+
+            slotmachine.StartSpin();
+
+            //guiManager.
+        }
+        else
+        {
+            // 可用分數不足，跳出通知訊息。
+        }
+    }
+
+    // slotmachine totally stop.
+    void ISlotMachine2GM.OnStop()
+    {
+
+        // Disable 停止鍵
+        //guiManager
+        guiManager.OnStop();
+    }
+
+    void IGUIManager2GM.OnClick_Spin()
+    {
+        throw new NotImplementedException();
+    }
+
+    void IGUIManager2GM.OnSpin()
+    {
+        throw new NotImplementedException();
+    }
+
+    void IGUIManager2GM.OnStop()
+    {
+        throw new NotImplementedException();
+    }
 }

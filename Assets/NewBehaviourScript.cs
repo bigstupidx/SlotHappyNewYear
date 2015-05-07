@@ -19,7 +19,7 @@ public class NewBehaviourScript : MonoBehaviour {
     {
         if(GUILayout.Button("aaaaaaaaaaaaaaab"))
         {
-            sm.OnClick_StartRun();
+            //sm.OnClick_StartRun();
         }
         if (GUILayout.Button("aaaaaaaaaaaaaaab"))
         {

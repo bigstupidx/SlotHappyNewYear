@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SlotMachine : MonoBehaviour {
 
+    ISlotMachine2GM Islotmachine2GM;
     
     public SoundManager soundMgr;
 
@@ -27,6 +28,7 @@ public class SlotMachine : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        Islotmachine2GM = GameManager.Instance;
 
         foreach (TileLine tileline in tileLines)
             tileline.SetSpeed(this.SlotSpeed_max);
@@ -99,7 +101,18 @@ public class SlotMachine : MonoBehaviour {
         //luaMgr.CallLuaFuction(Name_Function_FinishStopSpin);
     }
 
-    public void OnClick_StartRun()
+    public void OnClick_Spin()
+    {
+        // 通知 GUI 事件產生
+        Islotmachine2GM.OnClick_Spin();
+    }
+
+    public void StartSpin()
+    {
+        this.StartRun();
+    }
+
+    void StartRun()
     {
 
         StartCoroutine(PlayNectSound());

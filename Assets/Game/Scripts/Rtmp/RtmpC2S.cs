@@ -42,9 +42,9 @@ public class RtmpC2S
 		myPlugin2.myCallFmsApiWith2P ("creditExchange",rate,score);
 	}
 	
-	static public void BeginGame(int BetPerLine, int SelectLine)
+	static public void BeginGame(int SelectLine , int BetPerLine)
 	{
-		myPlugin2.myCallFmsApiWith3P("beginGame2",sid,BetPerLine.ToString(),SelectLine.ToString());
+		myPlugin2.myCallFmsApiWith3P("beginGame2",SelectLine.ToString(),sid,BetPerLine.ToString());
 	}
 	
 	static public void EndGame(string wagersID)
@@ -110,11 +110,11 @@ public class RtmpC2S
 		myPlugin3.CallAndroidStatic4("creditExchange",rate,score);
 	}
 
-    static public void BeginGame(string apiname,int BetPerLine, int SelectLine)
+    static public void BeginGame(string apiname, int SelectLine,int BetPerLine)
     {
         string sid = LoginManager.loginInfo.SID;
         //myPlugin3.CallAndroidStatic4 ("beginGame2",sid,BetPerLine.ToString(),SelectLine.ToString());
-        myPlugin3.CallAndroidStatic4(apiname, sid, BetPerLine.ToString(), SelectLine.ToString());
+        myPlugin3.CallAndroidStatic4(apiname, sid, SelectLine.ToString(), BetPerLine.ToString());
     }
 
     static public void EndGame(string wagersID)

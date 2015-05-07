@@ -73,6 +73,7 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
+    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &69522591
 GameObject:
@@ -922,7 +923,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967263
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1571,7 +1572,7 @@ Transform:
   m_GameObject: {fileID: 1112254764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.24888885, y: 1.24888885, z: 1.24888885}
+  m_LocalScale: {x: 1.33369303, y: 1.33369303, z: 1.33369303}
   m_Children:
   - {fileID: 69522592}
   - {fileID: 1494667419}
@@ -2203,7 +2204,7 @@ Transform:
   m_GameObject: {fileID: 1533174544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .00177935942, y: .00177935942, z: .00177935942}
+  m_LocalScale: {x: .001387925, y: .001387925, z: .001387925}
   m_Children:
   - {fileID: 495531154}
   - {fileID: 1112254765}
