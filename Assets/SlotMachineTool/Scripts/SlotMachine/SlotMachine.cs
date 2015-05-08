@@ -21,10 +21,7 @@ public class SlotMachine : MonoBehaviour {
     public string Name_Function_FinishStopSpin;
 
     private int cnt_finishstop;
-
-    // 外部接口
-    public PlayButtonManager playbuttonManager;
-
+    
     // Use this for initialization
     void Start()
     {
@@ -97,14 +94,28 @@ public class SlotMachine : MonoBehaviour {
 
     private void CallLua_FinisStopSpin()
     {
-        playbuttonManager.Allow_Stop();
+        Islotmachine2GM.OnStop();
         //luaMgr.CallLuaFuction(Name_Function_FinishStopSpin);
     }
 
     public void OnClick_Spin()
     {
-        // 通知 GUI 事件產生
-        Islotmachine2GM.OnClick_Spin();
+        Islotmachine2GM.OnClick_Spin(false);
+    }
+
+    public void OnClick_AutoSpin()
+    {
+        Islotmachine2GM.OnClick_Spin(true);
+    }
+
+    public void OnClick_StopAutoSpin()
+    {
+        Islotmachine2GM.OnClick_StopAutoSpin();
+    }
+
+    public void OnClick_GetScore()
+    {
+        Islotmachine2GM.OnClick_GetScore();
     }
 
     public void StartSpin()

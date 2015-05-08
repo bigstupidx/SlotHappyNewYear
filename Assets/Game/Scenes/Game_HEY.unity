@@ -1710,7 +1710,6 @@ GameObject:
   - 4: {fileID: 33719809}
   - 114: {fileID: 33719810}
   - 114: {fileID: 33719811}
-  - 54: {fileID: 33719812}
   m_Layer: 5
   m_Name: TileLine_2
   m_TagString: Untagged
@@ -1804,21 +1803,6 @@ MonoBehaviour:
   - {fileID: 181315118}
   - {fileID: 668100256}
   - {fileID: 1633823811}
---- !u!54 &33719812
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 33719808}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &34228830
 GameObject:
   m_ObjectHideFlags: 0
@@ -7966,7 +7950,6 @@ MonoBehaviour:
   wheelManager: {fileID: 132353934}
   SP_RefSize: {fileID: 752889286}
   Tween_Pos: {fileID: 752889285}
-  displayManager: {fileID: 912857708}
 --- !u!114 &132353936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9311,7 +9294,6 @@ MonoBehaviour:
   - {fileID: 226939090}
   SlotSpeed_max: 3000
   Name_Function_FinishStopSpin: FinishStopSpin
-  playbuttonManager: {fileID: 1252078773}
 --- !u!1 &157228316
 GameObject:
   m_ObjectHideFlags: 0
@@ -9760,7 +9742,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3033
+  startingRenderQueue: 3032
   mClipTexture: {fileID: 0}
   mAlpha: 0
   mClipping: 0
@@ -11611,7 +11593,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 194403686}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -579.5, y: -459.730499, z: 0}
+  m_LocalPosition: {x: -579.499939, y: -459.909943, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1738919468}
@@ -12223,6 +12205,7 @@ GameObject:
   - 65: {fileID: 203293007}
   - 114: {fileID: 203293006}
   - 114: {fileID: 203293004}
+  - 114: {fileID: 203293003}
   m_Layer: 5
   m_Name: StopAutoSpin
   m_TagString: Untagged
@@ -12237,13 +12220,34 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 203293001}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.5, y: -461.230499, z: 0}
+  m_LocalPosition: {x: 580.499939, y: -461.409943, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1093028714}
   - {fileID: 932532007}
   m_Father: {fileID: 1252078772}
   m_RootOrder: 1
+--- !u!114 &203293003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 203293001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380215e070faba249997f7c4e612e541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uibutton: {fileID: 203293006}
+  Func_normal:
+    GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+  Func_longpress:
+    GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+  bClickDisable: 1
 --- !u!114 &203293004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12277,7 +12281,7 @@ MonoBehaviour:
   mWidth: 267
   mHeight: 140
   mDepth: 6
-  autoResizeBoxCollider: 0
+  autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.90714288
@@ -12318,7 +12322,11 @@ MonoBehaviour:
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick: []
+  onClick:
+  - mTarget: {fileID: 156229732}
+    mMethodName: OnClick_StopAutoSpin
+    mParameters: []
+    oneShot: 0
 --- !u!65 &203293007
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12329,7 +12337,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 240, y: 139, z: 0}
+  m_Size: {x: 267, y: 140, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &205119191
 GameObject:
@@ -12342,6 +12350,7 @@ GameObject:
   - 65: {fileID: 205119196}
   - 114: {fileID: 205119195}
   - 114: {fileID: 205119193}
+  - 114: {fileID: 205119194}
   m_Layer: 5
   m_Name: Spin
   m_TagString: Untagged
@@ -12356,7 +12365,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205119191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.5, y: -461.230499, z: 0}
+  m_LocalPosition: {x: 580.499939, y: -461.409943, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1718714652}
@@ -12395,8 +12404,8 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 267
   mHeight: 140
-  mDepth: 6
-  autoResizeBoxCollider: 0
+  mDepth: 10
+  autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.90714288
@@ -12413,6 +12422,27 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: cd41ba2ebf2e9204c88f95bf6920a7bb, type: 2}
   mSpriteName: bet_btn_up.PNG
   mFillCenter: 1
+--- !u!114 &205119194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 205119191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380215e070faba249997f7c4e612e541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uibutton: {fileID: 205119195}
+  Func_normal:
+    GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+  Func_longpress:
+    GameObject: {fileID: 156229730}
+    ComponentName: SlotMachine
+    MethodName: OnClick_AutoSpin
+  bClickDisable: 1
 --- !u!114 &205119195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12452,7 +12482,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 240, y: 139, z: 0}
+  m_Size: {x: 267, y: 140, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &206040950
 GameObject:
@@ -13360,7 +13390,6 @@ GameObject:
   - 4: {fileID: 214115790}
   - 114: {fileID: 214115791}
   - 114: {fileID: 214115792}
-  - 54: {fileID: 214115793}
   m_Layer: 5
   m_Name: TileLine_4
   m_TagString: Untagged
@@ -13454,21 +13483,6 @@ MonoBehaviour:
   - {fileID: 260626968}
   - {fileID: 114701300}
   - {fileID: 478059642}
---- !u!54 &214115793
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 214115789}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &214180376
 GameObject:
   m_ObjectHideFlags: 0
@@ -14286,7 +14300,6 @@ GameObject:
   - 4: {fileID: 226939088}
   - 114: {fileID: 226939089}
   - 114: {fileID: 226939090}
-  - 54: {fileID: 226939091}
   m_Layer: 5
   m_Name: TileLine_5
   m_TagString: Untagged
@@ -14380,21 +14393,6 @@ MonoBehaviour:
   - {fileID: 218137086}
   - {fileID: 947018362}
   - {fileID: 1648041508}
---- !u!54 &226939091
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 226939087}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &229390656
 GameObject:
   m_ObjectHideFlags: 0
@@ -20098,7 +20096,7 @@ Transform:
   m_GameObject: {fileID: 323312825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.33369005, y: 1.33369005, z: 1.33369005}
+  m_LocalScale: {x: 1.33324695, y: 1.33324695, z: 1.33324695}
   m_Children:
   - {fileID: 331192549}
   - {fileID: 156229731}
@@ -22145,7 +22143,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 354315694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -77.0400162, y: -487.73053, z: 0}
+  m_LocalPosition: {x: -77.0400085, y: -487.909912, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2131584733}
@@ -27560,7 +27558,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 449521996}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -589, y: 505.230469, z: 0}
+  m_LocalPosition: {x: -588.999939, y: 505.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1708125965}
@@ -38502,7 +38500,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 618301743}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 587.999939, y: 504.230438, z: 0}
+  m_LocalPosition: {x: 587.999939, y: 504.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 922497083}
@@ -40453,7 +40451,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 647736484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -417.02002, y: 500.230469, z: 0}
+  m_LocalPosition: {x: -417.02002, y: 500.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -42482,7 +42480,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 677288700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -275.5, y: -489.23053, z: 0}
+  m_LocalPosition: {x: -275.499969, y: -489.409912, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -43485,7 +43483,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 689834323}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 84.9553909, y: -417.230469, z: 0}
+  m_LocalPosition: {x: 84.9553833, y: -417.409973, z: 0}
   m_LocalScale: {x: .999899924, y: .999899924, z: .999899924}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -46883,7 +46881,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 752889282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 661.680054, y: -32.413826, z: 0}
+  m_LocalPosition: {x: 661.679932, y: -32.4245987, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1544050698}
@@ -50561,7 +50559,6 @@ GameObject:
   - 4: {fileID: 824780057}
   - 114: {fileID: 824780058}
   - 114: {fileID: 824780059}
-  - 54: {fileID: 824780060}
   m_Layer: 5
   m_Name: TileLine_1
   m_TagString: Untagged
@@ -50655,21 +50652,6 @@ MonoBehaviour:
   - {fileID: 1861064055}
   - {fileID: 1821574598}
   - {fileID: 368630109}
---- !u!54 &824780060
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 824780056}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &825725452
 GameObject:
   m_ObjectHideFlags: 0
@@ -63680,7 +63662,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1049881992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 313.000183, y: -417.230469, z: 0}
+  m_LocalPosition: {x: 313.000153, y: -417.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -68334,7 +68316,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1122551451}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -283, y: -493.230469, z: 0}
+  m_LocalPosition: {x: -282.999969, y: -493.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -68427,7 +68409,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1123154049}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -450.230469, z: 0}
+  m_LocalPosition: {x: 0, y: -450.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -69364,7 +69346,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1440, y: 1080, z: 0}
+  m_Size: {x: 1440, y: 1081, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1140080701
 MonoBehaviour:
@@ -69398,12 +69380,12 @@ MonoBehaviour:
   mColor: {r: 0, g: 0, b: 0, a: .588235319}
   mPivot: 4
   mWidth: 1440
-  mHeight: 1080
+  mHeight: 1081
   mDepth: 5
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.33333337
+  aspectRatio: 1.33209991
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -70251,7 +70233,7 @@ MonoBehaviour:
   Win_SystemMessage: {fileID: 1997093961}
   exchangePanel: {fileID: 657573541}
   guiManager: {fileID: 1157598149}
-  slotmachine: {fileID: 0}
+  slotmachine: {fileID: 156229732}
 --- !u!114 &1157598148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70281,6 +70263,7 @@ MonoBehaviour:
   but_settings: {fileID: 618301747}
   sp_ExchangeRatio: {fileID: 964269692}
   playbutManager: {fileID: 1252078773}
+  displayManager: {fileID: 0}
 --- !u!1 &1160663680
 GameObject:
   m_ObjectHideFlags: 0
@@ -73347,7 +73330,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1225043715}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 155.000061, y: 506.230469, z: 0}
+  m_LocalPosition: {x: 155.000046, y: 506.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -74923,10 +74906,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50fdae92caece734e86798b67d03bdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GO_Spin: {fileID: 205119191}
-  GO_Stop: {fileID: 2042258755}
-  GO_StopAutoSpin: {fileID: 203293001}
-  GO_GetScore: {fileID: 1563814853}
+  GFB_Spin: {fileID: 205119194}
+  GFB_Stop: {fileID: 2042258757}
+  GFB_StopAutoSpin: {fileID: 203293003}
+  GFB_GetScore: {fileID: 1563814856}
   betWheel: {fileID: 132353935}
 --- !u!1 &1252610650
 GameObject:
@@ -75169,7 +75152,7 @@ MonoBehaviour:
   mPivot: 1
   mWidth: 240
   mHeight: 70
-  mDepth: 7
+  mDepth: 11
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -77610,7 +77593,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 240
   mHeight: 70
-  mDepth: 7
+  mDepth: 11
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -77717,7 +77700,6 @@ GameObject:
   - 4: {fileID: 1306061856}
   - 114: {fileID: 1306061857}
   - 114: {fileID: 1306061858}
-  - 54: {fileID: 1306061859}
   m_Layer: 5
   m_Name: TileLine_3
   m_TagString: Untagged
@@ -77811,21 +77793,6 @@ MonoBehaviour:
   - {fileID: 846431796}
   - {fileID: 1066296139}
   - {fileID: 794415618}
---- !u!54 &1306061859
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1306061855}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1306320364
 GameObject:
   m_ObjectHideFlags: 0
@@ -81728,7 +81695,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1368899741}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 502.230469, z: 0}
+  m_LocalPosition: {x: 0, y: 502.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -81769,7 +81736,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 18.4358978
+  aspectRatio: 18.4487171
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -85323,7 +85290,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1438120769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 89, y: -493.230469, z: 0}
+  m_LocalPosition: {x: 89, y: -493.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -89556,7 +89523,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1440, y: 1080, z: 0}
+  m_Size: {x: 1440, y: 1081, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1516523245
 MonoBehaviour:
@@ -89590,12 +89557,12 @@ MonoBehaviour:
   mColor: {r: 0, g: 0, b: 0, a: .70588237}
   mPivot: 4
   mWidth: 1440
-  mHeight: 1080
+  mHeight: 1081
   mDepth: 0
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.33333337
+  aspectRatio: 1.33209991
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -92279,6 +92246,7 @@ GameObject:
   - 65: {fileID: 1563814858}
   - 114: {fileID: 1563814857}
   - 114: {fileID: 1563814855}
+  - 114: {fileID: 1563814856}
   m_Layer: 5
   m_Name: GetScore
   m_TagString: Untagged
@@ -92293,7 +92261,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1563814853}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.5, y: -461.230499, z: 0}
+  m_LocalPosition: {x: 580.499939, y: -461.409943, z: 0}
   m_LocalScale: {x: .999900043, y: .999900043, z: .999900043}
   m_Children:
   - {fileID: 1258507208}
@@ -92331,8 +92299,8 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 267
   mHeight: 140
-  mDepth: 6
-  autoResizeBoxCollider: 0
+  mDepth: 10
+  autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.90714288
@@ -92349,6 +92317,27 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: cd41ba2ebf2e9204c88f95bf6920a7bb, type: 2}
   mSpriteName: bet_btn_up.PNG
   mFillCenter: 1
+--- !u!114 &1563814856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1563814853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380215e070faba249997f7c4e612e541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uibutton: {fileID: 1563814857}
+  Func_normal:
+    GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+  Func_longpress:
+    GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+  bClickDisable: 1
 --- !u!114 &1563814857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92384,7 +92373,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 240, y: 139, z: 0}
+  m_Size: {x: 267, y: 140, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1564090382
 GameObject:
@@ -99520,7 +99509,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1688092390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -183.000031, y: 505.230438, z: 0}
+  m_LocalPosition: {x: -183.000031, y: 505.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 665399123}
@@ -101420,7 +101409,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 240
   mHeight: 70
-  mDepth: 7
+  mDepth: 11
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -101672,7 +101661,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 240
   mHeight: 70
-  mDepth: 7
+  mDepth: 11
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -102066,7 +102055,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3022
+  startingRenderQueue: 3020
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -104415,7 +104404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c0c1788c0968a4ea1e9d59d81df915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IRtmpS2C: {fileID: 0}
+  IRtmpS2C: {fileID: 1157598147}
 --- !u!1 &1773911187
 GameObject:
   m_ObjectHideFlags: 0
@@ -104681,7 +104670,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1774763704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 330.499908, y: 505.230438, z: 0}
+  m_LocalPosition: {x: 330.499908, y: 505.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 964269691}
@@ -106616,7 +106605,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1806322722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -261.73642, y: -417.230469, z: 0}
+  m_LocalPosition: {x: -261.736389, y: -417.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -113441,7 +113430,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1911338484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 321.099335, y: -486.73053, z: 0}
+  m_LocalPosition: {x: 321.099304, y: -486.909912, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -116549,7 +116538,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3033
+  startingRenderQueue: 3032
   mClipTexture: {fileID: 0}
   mAlpha: 0
   mClipping: 0
@@ -117820,7 +117809,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2023876281}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 330.200104, y: -493.230469, z: 0}
+  m_LocalPosition: {x: 330.200073, y: -493.409973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -119750,6 +119739,7 @@ GameObject:
   - 65: {fileID: 2042258759}
   - 114: {fileID: 2042258758}
   - 114: {fileID: 2042258760}
+  - 114: {fileID: 2042258757}
   m_Layer: 5
   m_Name: Stop
   m_TagString: Untagged
@@ -119764,12 +119754,33 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2042258755}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.5, y: -461.230499, z: 0}
+  m_LocalPosition: {x: 580.499939, y: -461.409943, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1304385733}
   m_Father: {fileID: 1252078772}
   m_RootOrder: 2
+--- !u!114 &2042258757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2042258755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380215e070faba249997f7c4e612e541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uibutton: {fileID: 2042258758}
+  Func_normal:
+    GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+  Func_longpress:
+    GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+  bClickDisable: 1
 --- !u!114 &2042258758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119809,7 +119820,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 240, y: 139, z: 0}
+  m_Size: {x: 267, y: 140, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2042258760
 MonoBehaviour:
@@ -119843,8 +119854,8 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 267
   mHeight: 140
-  mDepth: 6
-  autoResizeBoxCollider: 0
+  mDepth: 10
+  autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.90714288
@@ -121811,7 +121822,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2073573997}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 87.5, y: -486.73053, z: 0}
+  m_LocalPosition: {x: 87.5, y: -486.909912, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}

@@ -6,6 +6,8 @@ using System.Collections;
 
 public class BetWheel : MonoBehaviour {
 
+    IBetWheel2GM Ibetwheel2GM;
+
     bool state_open;
 
     bool allow_Click;
@@ -20,10 +22,7 @@ public class BetWheel : MonoBehaviour {
 
     public UISprite SP_RefSize;
     public TweenPosition Tween_Pos;
-
-    // 外部接口
-    public DisplayManager displayManager;
-
+    
     // ****
     private Transform target;
     private float axisX;
@@ -75,7 +74,7 @@ public class BetWheel : MonoBehaviour {
     
     void Awake()
     {
-
+        
         target = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_bg").transform;
         for (int i = 0; i < NumberObj.Length; i++)
             NumberObj[i] = (i + 1).ToString("00");
@@ -102,6 +101,8 @@ public class BetWheel : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        Ibetwheel2GM = GameManager.Instance;
 
         state_open = false;
         allow_Click = true;
@@ -155,8 +156,7 @@ public class BetWheel : MonoBehaviour {
     // 通知外部新的下注賠率
     private void UpdateBetValue()
     {
-        string betscore = (returnBet * 50).ToString();
-        displayManager.Set_BetScore(betscore);
+        Ibetwheel2GM.UpdateBetValue(returnBet);
     }
 
     public bool CloseWheel()

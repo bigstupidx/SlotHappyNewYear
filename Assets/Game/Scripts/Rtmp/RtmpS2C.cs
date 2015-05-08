@@ -57,7 +57,13 @@ public class RtmpS2C : MonoBehaviour
 
                 IRtmpS2C.onBalanceExchange(event_msg);
                 break;
+            case "onBeginGame":
 
+                IRtmpS2C.onBeginGame(event_msg);
+                break;
+            case "onEndGame":
+                IRtmpS2C.onEndGame(event_msg);
+                break;
             default:
 
                 print("Can't found this event . event_name " + event_name);

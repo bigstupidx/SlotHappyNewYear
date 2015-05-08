@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+
+using LitJson;
 
 public class GUIManager : MonoBehaviour
 {
+    IGUIManager2GM IguiManager2GM;
 
     // 滿線滿注
     public UIButton but_maxbetline;
@@ -18,6 +22,8 @@ public class GUIManager : MonoBehaviour
 
     public PlayButtonManager playbutManager;
 
+    public DisplayManager displayManager;
+
     Dictionary<string, string> table_ratioFindsprite;
 
 	static public GUIManager Instance;
@@ -25,7 +31,9 @@ public class GUIManager : MonoBehaviour
 	public void Awake()
 	{
         Instance = this;
-	}
+
+        IguiManager2GM = GameManager.Instance;
+    }
 
     public void Start()
     {
@@ -58,10 +66,10 @@ public class GUIManager : MonoBehaviour
         but_exchange.enabled = false;
         but_exchange.SetState(UIButtonColor.State.Disabled, false);
 
-        playbutManager.Set_Spin_Disable();
+        playbutManager.SetButtonState("Spin", "Disabled");
     }
 
-    public void OnCreateExchange(string str)
+    public void OnCreateExchange(string str,bool allowspins)
     {
         but_dollar.enabled = true;
         but_dollar.SetState(UIButtonColor.State.Normal, false);
@@ -69,19 +77,71 @@ public class GUIManager : MonoBehaviour
         but_exchange.enabled = true;
         but_exchange.SetState(UIButtonColor.State.Normal, false);
 
-        playbutManager.Allow_Spin();
 
         // 設定兌換比率
         sp_ExchangeRatio.spriteName = table_ratioFindsprite[str];
+        
+        if(allowspins)
+        {
+            playbutManager.Allow_Spin();
+        }
+    }
+
+    public void AllowSpin()
+    {
+        playbutManager.Allow_Spin();
+    }
+
+    public void AllowStop()
+    {
+        playbutManager.Allow_Stop();
+    }
+    public void AllowAutoStop()
+    {
+        playbutManager.Allow_AutoStop();
     }
 
     public void OnClick_Spin()
     {
         playbutManager.OnClick_Spin();
     }
-    
-    public void OnStop()
+
+    public void OnClick_GetScore(string str_nowscore)
     {
-        playbutManager.Allow_Spin();
+        // 贏得分數歸零、現在分數增加
+        displayManager.Set_WinScore("0");
+        displayManager.Set_NowScore(str_nowscore);
+    }
+
+    public void OnStop(SM_State state)
+    {
+        StartCoroutine(GetFlow(state));
+    }    
+    
+    public void UpdateBetValue(int betperline)
+    {
+        string str_betscore = (betperline * 50).ToString();
+        displayManager.Set_BetScore(str_betscore);
+    }
+
+    IEnumerator GetFlow(SM_State state)
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        if(state == SM_State.AUTOSPIN)
+        {
+            IguiManager2GM.Finish_GetScore();
+        }
+        else if(state == SM_State.FREEGAME)
+        {
+
+        }
+        else
+        {
+            // 執行等待得分流程
+
+
+            IguiManager2GM.Finish_GetScore();
+        }
     }
 }

@@ -4,129 +4,62 @@ using System.Collections.Generic;
 
 public class PlayButtonManager : MonoBehaviour {
 
-    public GameObject GO_Spin;
-    public GameObject GO_Stop;
-    public GameObject GO_StopAutoSpin;
-    public GameObject GO_GetScore;
+    public GF_ButtonObject GFB_Spin;
+    public GF_ButtonObject GFB_Stop;
+    public GF_ButtonObject GFB_StopAutoSpin;
+    public GF_ButtonObject GFB_GetScore;
     
     public BetWheel betWheel;
 
-    private Dictionary<string, UIButton> Buttons;
+    private Dictionary<string, GF_ButtonObject> Buttons;
 
     void Awake()
     {
-        Buttons = new Dictionary<string, UIButton>();
-        Buttons.Add("Spin", GO_Spin.GetComponent<UIButton>());
-        Buttons.Add("Stop", GO_Stop.GetComponent<UIButton>());
-        Buttons.Add("StopAutoSpin", GO_StopAutoSpin.GetComponent<UIButton>());
-        Buttons.Add("GetScore", GO_GetScore.GetComponent<UIButton>());
+        Buttons = new Dictionary<string, GF_ButtonObject>();
+        Buttons.Add("Spin", GFB_Spin);
+        Buttons.Add("Stop", GFB_Stop);
+        Buttons.Add("StopAutoSpin", GFB_StopAutoSpin);
+        Buttons.Add("GetScore", GFB_GetScore);
     }
 
     // Use this for initialization
     void Start () {
-
-        //this.Set_Spin_Disable();
-
-        GO_Stop.SetActive(false);
-        GO_StopAutoSpin.SetActive(false);
-        GO_GetScore.SetActive(false);
+                
+        Buttons["Stop"].SetState("OFF");
+        Buttons["StopAutoSpin"].SetState("OFF");
+        Buttons["GetScore"].SetState("OFF");
     }
-
-    //**************************************************//
-    // Spin
-    //**************************************************//
-    public void Set_Spin_OFF()
-    {
-        GO_Spin.SetActive(false);
-    }
-    public void Set_Spin_Normal()
-    {
-        GO_Spin.SetActive(true);
-        Buttons["Spin"].SetState(UIButtonColor.State.Normal,true);
-    }
-    public void Set_Spin_Disable()
-    {
-        Buttons["Spin"].enabled = false;
-        Buttons["Spin"].SetState(UIButtonColor.State.Disabled, true);
-    }
-    //**************************************************//
-
-
-    //**************************************************//
-    // Stop
-    //**************************************************//
-    public void Set_Stop_OFF()
-    {
-        GO_Stop.SetActive(false);
-    }
-    public void Set_Stop_Normal()
-    {
-        GO_Stop.SetActive(true);
-        Buttons["Stop"].SetState(UIButtonColor.State.Normal, true);
-    }
-    public void Set_Stop_Disable()
-    {
-        Buttons["Stop"].enabled = false;
-        Buttons["Stop"].SetState(UIButtonColor.State.Disabled, true);
-    }
-    //**************************************************//
-
-
-    //**************************************************//
-    // StopAutoSpin
-    //**************************************************//
-    public void Set_StopAutoSpin_OFF()
-    {
-        GO_StopAutoSpin.SetActive(false);
-    }
-    public void Set_StopAutoSpin_Normal()
-    {
-        GO_StopAutoSpin.SetActive(true);
-        Buttons["StopAutoSpin"].SetState(UIButtonColor.State.Normal, true);
-    }
-    public void Set_StopAutoSpin_Disable()
-    {
-        Buttons["StopAutoSpin"].enabled = false;
-        Buttons["StopAutoSpin"].SetState(UIButtonColor.State.Disabled, true);
-    }
-    //**************************************************//
-
-    //**************************************************//
-    // GO_GetScore
-    //**************************************************//
-    public void Set_GetScore_OFF()
-    {
-        GO_GetScore.SetActive(false);
-    }
-    public void Set_GetScore_Normal()
-    {
-        GO_GetScore.SetActive(true);
-        Buttons["GetScore"].SetState(UIButtonColor.State.Normal, true);
-    }
-    public void Set_GetScore_Disable()
-    {
-        Buttons["GetScore"].enabled = false;
-        Buttons["GetScore"].SetState(UIButtonColor.State.Disabled, true);
-    }
-    //**************************************************//
+    
 
     public void OnClick_Spin()
     {
         betWheel.Bet_Move_Close();
-        Set_Spin_Disable();
     }
     
+    public void SetButtonState(string key,string state)
+    {
+        Buttons[key].SetState(state);
+    }
+
     public void Allow_Spin()
     {
-        Set_Stop_OFF();
-        Set_Spin_Normal();
+        Buttons["Stop"].SetState("OFF");
+        Buttons["Spin"].SetState("Normal");
+
         betWheel.Bet_Move_Open();
     }
 
     public void Allow_Stop()
     {
-        Set_Spin_OFF();
-        Set_Stop_Normal();
+        Buttons["Spin"].SetState("OFF");
+        Buttons["Stop"].SetState("Normal");
+    }
+
+    public void Allow_AutoStop()
+    {
+        Buttons["Spin"].SetState("OFF");
+        Buttons["StopAutoSpin"].SetState("Normal");
+
     }
 
 }
