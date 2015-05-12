@@ -66,21 +66,21 @@ public class LineWheel : MonoBehaviour {
         for (int i = 0; i < NumberObj.Length; i++)
             NumberObj[i] = (i + 1).ToString("00");
 
-        Number_Obj_1 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_01").gameObject.GetComponent<UILabel>();
+        Number_Obj_1 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_01").gameObject.GetComponent<UILabel>();
         Number_Obj_1.gameObject.AddComponent<lineNumberRotate>();
-        Number_Obj_2 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_02").gameObject.GetComponent<UILabel>();
+        Number_Obj_2 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_02").gameObject.GetComponent<UILabel>();
         //		Number_Obj_2.gameObject.AddComponent<lineNumberRotate>();
-        Number_Obj_3 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_03").gameObject.GetComponent<UILabel>();
+        Number_Obj_3 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_03").gameObject.GetComponent<UILabel>();
         //		Number_Obj_3.gameObject.AddComponent<lineNumberRotate>();
-        Number_Obj_4 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_04").gameObject.GetComponent<UILabel>();
+        Number_Obj_4 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_04").gameObject.GetComponent<UILabel>();
         //		Number_Obj_4.gameObject.AddComponent<lineNumberRotate>();
-        Number_Obj_5 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_05").gameObject.GetComponent<UILabel>();
+        Number_Obj_5 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_05").gameObject.GetComponent<UILabel>();
         //		Number_Obj_5.gameObject.AddComponent<lineNumberRotate>();
-        Number_Obj_6 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_06").gameObject.GetComponent<UILabel>();
+        Number_Obj_6 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_06").gameObject.GetComponent<UILabel>();
 
-        Number_Obj_7 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_07").gameObject.GetComponent<UILabel>();
+        Number_Obj_7 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_07").gameObject.GetComponent<UILabel>();
 
-        Number_Obj_8 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_08").gameObject.GetComponent<UILabel>();
+        Number_Obj_8 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/SelectLine/Line_Selection/line_label_08").gameObject.GetComponent<UILabel>();
 
 
         m_Rotate1 = Number_Obj_1.gameObject.GetComponent<lineNumberRotate>();

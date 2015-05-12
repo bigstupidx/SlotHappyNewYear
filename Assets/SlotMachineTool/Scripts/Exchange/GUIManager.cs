@@ -7,7 +7,14 @@ using LitJson;
 
 public class GUIManager : MonoBehaviour
 {
+    public struct GUIInfoBuffer
+    {
+        public string Score_endgame;
+    }
+
     IGUIManager2GM IguiManager2GM;
+    
+    public BingoManager bingoManger;
 
     // 滿線滿注
     public UIButton but_maxbetline;
@@ -28,7 +35,10 @@ public class GUIManager : MonoBehaviour
 
 	static public GUIManager Instance;
 
-	public void Awake()
+    private bool sw_animation;
+    
+
+    public void Awake()
 	{
         Instance = this;
 
@@ -56,6 +66,9 @@ public class GUIManager : MonoBehaviour
         table_ratioFindsprite.Add("200K:1", "200K:1_up.PNG");
         table_ratioFindsprite.Add("300K:1", "300K:1_up.PNG");
         table_ratioFindsprite.Add("50000:1", "50000:1_up.PNG");
+
+        sw_animation = false;
+        
     }
 
     public void OnWaitCreateExchange()
@@ -106,16 +119,18 @@ public class GUIManager : MonoBehaviour
         playbutManager.OnClick_Spin();
     }
 
-    public void OnClick_GetScore(string str_nowscore)
+    public void OnClick_GetScore(string score)
     {
         // 贏得分數歸零、現在分數增加
         displayManager.Set_WinScore("0");
-        displayManager.Set_NowScore(str_nowscore);
+        displayManager.Set_NowScore(score);
+
+        sw_animation = false;
     }
 
-    public void OnStop(SM_State state)
+    public void OnStop(SM_State state,JsonData jd)
     {
-        StartCoroutine(GetFlow(state));
+        StartCoroutine(GetFlow(state, jd));
     }    
     
     public void UpdateBetValue(int betperline)
@@ -124,11 +139,35 @@ public class GUIManager : MonoBehaviour
         displayManager.Set_BetScore(str_betscore);
     }
 
-    IEnumerator GetFlow(SM_State state)
+    IEnumerator GetFlow(SM_State state,JsonData jd)
     {
+        print("GetFlow ... ");
+
+        print("GetFlow ... 1");
+        JsonData jd_lines = jd["Lines"];
+        int[] arr_lineid = new int[jd_lines.Count];
+        string[] arr_payoff = new string[jd_lines.Count];
+
+        print("GetFlow ... 2");
+        for (int i = 0; i < jd_lines.Count; i++)
+        {
+            arr_lineid[i] = Convert.ToInt32(jd_lines[i]["LineID"]);
+        }
+        
         yield return new WaitForSeconds(1.0f);
 
-        if(state == SM_State.AUTOSPIN)
+        for(int i = 0; i < jd_lines.Count; i++)
+        {
+            bingoManger.OpenBingoLine(arr_lineid[i]);
+        }
+
+        print("GetFlow ... 3");
+        yield return new WaitForSeconds(1.0f);
+
+        bingoManger.CloseAllBingoLine();
+
+        
+        if (state == SM_State.AUTOSPIN)
         {
             IguiManager2GM.Finish_GetScore();
         }
@@ -138,8 +177,43 @@ public class GUIManager : MonoBehaviour
         }
         else
         {
-            // 執行等待得分流程
 
+            print("GetFlow ... 4");
+            // 執行等待得分流程
+            playbutManager.Allow_GetScore();
+            sw_animation = true;
+            int cnt_idx = 0 ;
+
+            print("GetFlow ... 5");
+            while (sw_animation)
+            {
+                bingoManger.OpenBingoLine(arr_lineid[cnt_idx]);
+
+                print("GetFlow ... 6");
+                bingoManger.ShowPayoff(arr_lineid[cnt_idx], arr_payoff[cnt_idx]);
+
+                print("GetFlow ... 7");
+                if (!sw_animation)
+                {
+                    bingoManger.CloseAllBingoLine();
+
+                    print("GetFlow ... 8");
+                    bingoManger.ClosePayoff();
+                    break;
+                }
+
+                yield return new WaitForSeconds(1.0f);
+                bingoManger.CloseAllBingoLine();
+
+                print("GetFlow ... 9");
+                bingoManger.ClosePayoff();
+
+                print("GetFlow ... 10");
+                cnt_idx++;
+
+                if (cnt_idx == arr_lineid.Length)
+                    cnt_idx = 0;
+            }
 
             IguiManager2GM.Finish_GetScore();
         }

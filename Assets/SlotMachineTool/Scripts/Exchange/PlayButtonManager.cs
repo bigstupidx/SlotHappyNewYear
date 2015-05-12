@@ -44,6 +44,7 @@ public class PlayButtonManager : MonoBehaviour {
     public void Allow_Spin()
     {
         Buttons["Stop"].SetState("OFF");
+        Buttons["GetScore"].SetState("OFF");
         Buttons["Spin"].SetState("Normal");
 
         betWheel.Bet_Move_Open();
@@ -62,4 +63,10 @@ public class PlayButtonManager : MonoBehaviour {
 
     }
 
+    public void Allow_GetScore()
+    {
+        Buttons["Stop"].SetState("OFF");
+        Buttons["GetScore"].SetState("Normal");
+
+    }
 }

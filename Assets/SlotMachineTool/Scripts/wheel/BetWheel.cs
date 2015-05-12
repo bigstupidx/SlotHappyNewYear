@@ -75,20 +75,20 @@ public class BetWheel : MonoBehaviour {
     void Awake()
     {
         
-        target = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_bg").transform;
+        target = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_bg").transform;
         for (int i = 0; i < NumberObj.Length; i++)
             NumberObj[i] = (i + 1).ToString("00");
 
 
-        Number_Obj_1 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_01").gameObject.GetComponent<UILabel>();
+        Number_Obj_1 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_01").gameObject.GetComponent<UILabel>();
         Number_Obj_1.gameObject.AddComponent<BetLineRotateNumber>();
-        Number_Obj_2 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_02").gameObject.GetComponent<UILabel>();        
-        Number_Obj_3 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_03").gameObject.GetComponent<UILabel>();        
-        Number_Obj_4 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_04").gameObject.GetComponent<UILabel>();        
-        Number_Obj_5 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_05").gameObject.GetComponent<UILabel>();        
-        Number_Obj_6 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_06").gameObject.GetComponent<UILabel>();        
-        Number_Obj_7 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_07").gameObject.GetComponent<UILabel>();        
-        Number_Obj_8 = GameObject.Find("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_08").gameObject.GetComponent<UILabel>();
+        Number_Obj_2 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_02").gameObject.GetComponent<UILabel>();        
+        Number_Obj_3 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_03").gameObject.GetComponent<UILabel>();        
+        Number_Obj_4 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_04").gameObject.GetComponent<UILabel>();        
+        Number_Obj_5 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_05").gameObject.GetComponent<UILabel>();        
+        Number_Obj_6 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_06").gameObject.GetComponent<UILabel>();        
+        Number_Obj_7 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_07").gameObject.GetComponent<UILabel>();        
+        Number_Obj_8 = GameObject.Find("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_08").gameObject.GetComponent<UILabel>();
         
         m_betLineRotateNumber = Number_Obj_1.gameObject.GetComponent<BetLineRotateNumber>();
 

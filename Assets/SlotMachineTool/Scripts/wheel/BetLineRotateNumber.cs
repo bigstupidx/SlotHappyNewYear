@@ -41,15 +41,15 @@ public class BetLineRotateNumber : MonoBehaviour {
 			break;*/
 			
 		}
-        m_betwheel = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel").GetComponent<BetWheel>();
-		m_Label_01 = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_01").GetComponent<UILabel>();
-		m_Label_02 = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_02").GetComponent<UILabel>();
-		m_Label_03 = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_03").GetComponent<UILabel>();
-		m_Label_04 = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_04").GetComponent<UILabel>();
-		m_Label_05 = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_05").GetComponent<UILabel>();
-		m_Label_06 = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_06").GetComponent<UILabel>();
-		m_Label_07 = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_07").GetComponent<UILabel>();
-		m_Label_08 = GameObject.Find ("UI Root/Streatch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_08").GetComponent<UILabel>();
+        m_betwheel = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel").GetComponent<BetWheel>();
+		m_Label_01 = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_01").GetComponent<UILabel>();
+		m_Label_02 = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_02").GetComponent<UILabel>();
+		m_Label_03 = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_03").GetComponent<UILabel>();
+		m_Label_04 = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_04").GetComponent<UILabel>();
+		m_Label_05 = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_05").GetComponent<UILabel>();
+		m_Label_06 = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_06").GetComponent<UILabel>();
+		m_Label_07 = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_07").GetComponent<UILabel>();
+		m_Label_08 = GameObject.Find ("UI Root/Stretch/UserPanel/SelectWheel/BetLine/Bet_Selection/bet_label_08").GetComponent<UILabel>();
 		m_font_R = m_Label_02.bitmapFont;
 		m_font_O = m_Label_05.bitmapFont;
 	}

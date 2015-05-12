@@ -23,7 +23,10 @@ public class SpriteCollection : MonoBehaviour
     public void OpenSprites(int[] ids_bingolines)
     {
         foreach (int integer in ids_bingolines)
+        {
             SetSpriteOpen(integer);
+        }
+        
     }
     
     public void StartPlayAnimation(int[] spriteids)

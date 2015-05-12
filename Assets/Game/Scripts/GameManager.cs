@@ -68,13 +68,13 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
     void Init()
     {
-        /*
+        
         // 初始化開分面板
         exchangePanel.Setup(Global_UserInfo.Gl_onloadInfo.balance,
             Global_UserInfo.Gl_onloadInfo.defaultBase,
             Global_UserInfo.Gl_onloadInfo.loginName,
             Global_UserInfo.Gl_onloadInfo.Base);
-            */
+            
         RtmpS2C rtmps2c = GameObject.Find("ServerToClientObject").GetComponent<RtmpS2C>();
         rtmps2c.IRtmpS2C = this;
     }
@@ -316,6 +316,12 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         m_GameInfo.f_sm_state = SM_State.NORMAL;
     }
 
+    void ISlotMachine2GM.OnClick_GetScore()
+    {
+        string score = (m_jd_onEndGame[0]["data"]["Credit"]).ToString();
+        guiManager.OnClick_GetScore(score);
+    }
+
     // slotmachine totally stop.
     void ISlotMachine2GM.OnStop()
     {
@@ -328,6 +334,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             if (m_jd_onBegingame[0]["data"]["Lines"].Count > 0)
             {
                 // 執行等待得分流程
+                guiManager.OnStop(m_GameInfo.f_sm_state,m_jd_onBegingame);
             }
             else
             {
@@ -338,20 +345,16 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         {
             if(m_jd_onBegingame[0]["data"]["Lines"].Count > 0)
             {
+                print("執行等待得分流程.");
                 // 執行等待得分流程
+                guiManager.OnStop(m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
             }
             else
             {
                 guiManager.AllowSpin();
             }
         }
-    }
-
-    void ISlotMachine2GM.OnClick_GetScore()
-    {
-        string str_nowscore = (m_jd_onEndGame[0]["data"]["Credit"]).ToString();
-        guiManager.OnClick_GetScore(str_nowscore);
-    }
+    }    
 
     void IBetWheel2GM.UpdateBetValue(int betvalue)
     {
@@ -362,7 +365,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         if (m_GameInfo.score_betoneline > 0 && m_GameInfo.score_own > 0)
             guiManager.AllowSpin();
     }
-
+    
     void IGUIManager2GM.Finish_GetScore()
     {
         if (m_GameInfo.f_sm_state == SM_State.FREEGAME)
