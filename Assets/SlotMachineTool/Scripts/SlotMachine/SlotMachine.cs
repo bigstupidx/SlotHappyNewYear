@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SlotMachine : MonoBehaviour {
+public class SlotMachine : MonoBehaviour
+{
+    public static MoveMethod moveMethod = new XplusXMethod();
 
     ISlotMachine2GM Islotmachine2GM;
     
@@ -25,6 +27,8 @@ public class SlotMachine : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        moveMethod.Init(-50.0f, 0.0f, 0.05f);
+
         Islotmachine2GM = GameManager.Instance;
 
         foreach (TileLine tileline in tileLines)
@@ -91,13 +95,7 @@ public class SlotMachine : MonoBehaviour {
             }
         }
 	}
-
-    private void CallLua_FinisStopSpin()
-    {
-        Islotmachine2GM.OnStop();
-        //luaMgr.CallLuaFuction(Name_Function_FinishStopSpin);
-    }
-
+    
     public void OnClick_Spin()
     {
         Islotmachine2GM.OnClick_Spin(false);
@@ -185,18 +183,7 @@ public class SlotMachine : MonoBehaviour {
             print("id is " + name);
         */
     }
-
-    // 灰階
-    public void GreyTileObjects()
-    {
-
-    }
-    // 恢復顏色
-    public void RecoverAllTileObject()
-    {
-
-    }
-
+    
     private string[] GetTileSpriteInfo(int idx)
     {
 
@@ -237,7 +224,8 @@ public class SlotMachine : MonoBehaviour {
         if(cnt_finishstop == tileLines.Length)
         {
             cnt_finishstop = 0;
-            this.CallLua_FinisStopSpin();
+
+            Islotmachine2GM.OnStop();
         }
     }
 

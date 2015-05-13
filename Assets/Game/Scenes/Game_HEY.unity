@@ -9742,7 +9742,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3035
+  startingRenderQueue: 3033
   mClipTexture: {fileID: 0}
   mAlpha: 0
   mClipping: 0
@@ -46881,7 +46881,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 752889282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 661.679932, y: -32.3875427, z: 0}
+  m_LocalPosition: {x: 661.679932, y: -32.3883514, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1544050698}
@@ -68450,7 +68450,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 7.74193525
+  aspectRatio: 7.73655891
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -70183,10 +70183,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 1157598145}
   - 114: {fileID: 1157598146}
-  - 114: {fileID: 1157598148}
   - 114: {fileID: 1157598147}
   - 114: {fileID: 1157598149}
   - 114: {fileID: 1157598150}
+  - 114: {fileID: 1157598148}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -70243,10 +70243,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1157598144}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cee89ffff87494e4595a8e598a6a809a, type: 3}
+  m_Script: {fileID: 11500000, guid: 18a0a75d11b36e8409adc4e44b1dfeed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sm: {fileID: 156229732}
+  slotmachine: {fileID: 156229732}
 --- !u!114 &1157598149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81754,7 +81754,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 18.4358978
+  aspectRatio: 18.4230766
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -102077,7 +102077,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3024
+  startingRenderQueue: 3022
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -116560,7 +116560,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3035
+  startingRenderQueue: 3033
   mClipTexture: {fileID: 0}
   mAlpha: 0
   mClipping: 0

@@ -141,17 +141,19 @@ public class GUIManager : MonoBehaviour
 
     IEnumerator GetFlow(SM_State state,JsonData jd)
     {
-        print("GetFlow ... ");
+        LogServer.Instance.print("GetFlow ... ");
 
-        print("GetFlow ... 1");
+        LogServer.Instance.print("GetFlow ... 1");
         JsonData jd_lines = jd["Lines"];
         int[] arr_lineid = new int[jd_lines.Count];
         string[] arr_payoff = new string[jd_lines.Count];
 
-        print("GetFlow ... 2");
+        LogServer.Instance.print("GetFlow ... 2");
         for (int i = 0; i < jd_lines.Count; i++)
         {
-            arr_lineid[i] = Convert.ToInt32(jd_lines[i]["LineID"]);
+
+            double dou = (double)jd_lines[i]["LineID"];
+            arr_lineid[i] = Convert.ToInt32(dou);
         }
         
         yield return new WaitForSeconds(1.0f);
@@ -161,7 +163,7 @@ public class GUIManager : MonoBehaviour
             bingoManger.OpenBingoLine(arr_lineid[i]);
         }
 
-        print("GetFlow ... 3");
+        LogServer.Instance.print("GetFlow ... 3");
         yield return new WaitForSeconds(1.0f);
 
         bingoManger.CloseAllBingoLine();
@@ -178,26 +180,26 @@ public class GUIManager : MonoBehaviour
         else
         {
 
-            print("GetFlow ... 4");
+            LogServer.Instance.print("GetFlow ... 4");
             // 執行等待得分流程
             playbutManager.Allow_GetScore();
             sw_animation = true;
             int cnt_idx = 0 ;
 
-            print("GetFlow ... 5");
+            LogServer.Instance.print("GetFlow ... 5");
             while (sw_animation)
             {
                 bingoManger.OpenBingoLine(arr_lineid[cnt_idx]);
 
-                print("GetFlow ... 6");
+                LogServer.Instance.print("GetFlow ... 6");
                 bingoManger.ShowPayoff(arr_lineid[cnt_idx], arr_payoff[cnt_idx]);
 
-                print("GetFlow ... 7");
+                LogServer.Instance.print("GetFlow ... 7");
                 if (!sw_animation)
                 {
                     bingoManger.CloseAllBingoLine();
 
-                    print("GetFlow ... 8");
+                    LogServer.Instance.print("GetFlow ... 8");
                     bingoManger.ClosePayoff();
                     break;
                 }
@@ -205,10 +207,10 @@ public class GUIManager : MonoBehaviour
                 yield return new WaitForSeconds(1.0f);
                 bingoManger.CloseAllBingoLine();
 
-                print("GetFlow ... 9");
+                LogServer.Instance.print("GetFlow ... 9");
                 bingoManger.ClosePayoff();
 
-                print("GetFlow ... 10");
+                LogServer.Instance.print("GetFlow ... 10");
                 cnt_idx++;
 
                 if (cnt_idx == arr_lineid.Length)

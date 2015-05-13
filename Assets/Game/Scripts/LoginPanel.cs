@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoginPanel : MonoBehaviour {
 
+public class LoginPanel : MonoBehaviour {
+    
     public LoginManager loginManager;
 
     public TweenPosition tween_Pos;
@@ -13,6 +14,8 @@ public class LoginPanel : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
+
+        LogServer.Instance.print("test");
 
         // 檢查儲存的帳號
         UIInput Acc_keyin = GameObject.Find("ACC_Keyin").GetComponent<UIInput>();

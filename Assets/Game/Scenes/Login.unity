@@ -2414,6 +2414,48 @@ MonoBehaviour:
     mMethodName: OnClick_TouchBackGround
     mParameters: []
     oneShot: 0
+--- !u!1 &1566189574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 178534, guid: 080fcd1433380084da56be37ffec9572, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1566189576}
+  - 114: {fileID: 1566189575}
+  m_Layer: 0
+  m_Name: DebugServerClient
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1566189575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11478534, guid: 080fcd1433380084da56be37ffec9572,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1566189574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c285614705fb664d8608fdc3853a0cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerIP: 192.168.152.205
+  LogUserName: RodgerChen
+--- !u!4 &1566189576
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 478534, guid: 080fcd1433380084da56be37ffec9572, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1566189574}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
 --- !u!1 &1671353254
 GameObject:
   m_ObjectHideFlags: 0

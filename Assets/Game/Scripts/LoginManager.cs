@@ -30,6 +30,7 @@ public struct LoginInfo
         IP = _ip;
     }
 }
+
 public class LoginManager : MonoBehaviour
 {
 
