@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using System;
-using System.Collections.Generic;
 
 public class ExchangePanel : MonoBehaviour {
 
@@ -102,9 +101,16 @@ public class ExchangePanel : MonoBehaviour {
         idx_ratio_keep = idx_ratio;
         idx_ratio_temp = idx_ratio;
     }
+    
+    public void OnClick_Open()
+    {
+        if(Iexchange2GM.OpenAllow())
+        {
+            OpenExchangeWindow();
+        }
+    }
 
-
-    public void OpenExchangeWindow()
+    private void OpenExchangeWindow()
     {
         gameObject.SetActive(true);
 
@@ -121,7 +127,15 @@ public class ExchangePanel : MonoBehaviour {
 
         string[] values = Cal_BalanceMoney.Split('.');
 
-        int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+        // 因為 Cal_BalanceMoney 不一定為字串
+        string t_BalanceMoney = "";
+        if (values.Length == 2)
+            t_BalanceMoney = values[0];
+        else
+            t_BalanceMoney = Cal_BalanceMoney;
+
+        //int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+        int max_ExchangeScore = (int)(Convert.ToDouble(t_BalanceMoney) * RatioStrToFloat(Context_Proportion.text));
 
         if (max_ExchangeScore + Cal_NowScore > 500000)
             max_ExchangeScore = 500000 - Cal_NowScore;
@@ -140,7 +154,15 @@ public class ExchangePanel : MonoBehaviour {
 
         string[] values = Cal_BalanceMoney.Split('.');
 
-        int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+        // 因為 Cal_BalanceMoney 不一定為字串
+        string t_BalanceMoney = "";
+        if (values.Length == 2)
+            t_BalanceMoney = values[0];
+        else
+            t_BalanceMoney = Cal_BalanceMoney;
+
+        //int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+        int max_ExchangeScore = (int)(Convert.ToDouble(t_BalanceMoney) * RatioStrToFloat(Context_Proportion.text));
 
         if (max_ExchangeScore + Cal_NowScore > 500000)
             max_ExchangeScore = 500000 - Cal_NowScore;
@@ -161,7 +183,15 @@ public class ExchangePanel : MonoBehaviour {
 
             string[] values = Cal_BalanceMoney.Split('.');
 
-            int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+            // 因為 Cal_BalanceMoney 不一定為字串
+            string t_BalanceMoney = "";
+            if (values.Length == 2)
+                t_BalanceMoney = values[0];
+            else
+                t_BalanceMoney = Cal_BalanceMoney;
+
+            //int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+            int max_ExchangeScore = (int)(Convert.ToDouble(t_BalanceMoney) * RatioStrToFloat(Context_Proportion.text));
 
             if (max_ExchangeScore + Cal_NowScore > 500000)
                 max_ExchangeScore = 500000 - Cal_NowScore;
@@ -179,35 +209,52 @@ public class ExchangePanel : MonoBehaviour {
     
     public void OnSliderValueChange(object value)
     {
-        // integr [0] , float [1]
-        string[] values = Cal_BalanceMoney.Split('.');
+        try
+        {
+            // integr [0] , float [1]
+            string[] values = Cal_BalanceMoney.Split('.');
 
-        int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+            // 因為 Cal_BalanceMoney 不一定為字串，可能為整數
+            string t_BalanceMoney = "";
+            if (values.Length == 2)
+                t_BalanceMoney = values[0];
+            else
+                t_BalanceMoney = Cal_BalanceMoney;
 
-        if (max_ExchangeScore + Cal_NowScore > 500000)
-            max_ExchangeScore = 500000 - Cal_NowScore;
+            //int max_ExchangeScore = (int)(Convert.ToDouble(values[0]) * RatioStrToFloat(Context_Proportion.text));
+            int max_ExchangeScore = (int)(Convert.ToDouble(t_BalanceMoney) * RatioStrToFloat(Context_Proportion.text));
 
-        int slider_rate = (int)((float)value * 10000000.0f);
-        float min_ExchangeScore = (float)max_ExchangeScore / 10000000.0f;
+            if (max_ExchangeScore + Cal_NowScore > 500000)
+                max_ExchangeScore = 500000 - Cal_NowScore;
 
-        this.Cal_ExchangScore = Convert.ToInt32(min_ExchangeScore * slider_rate);
+            int slider_rate = (int)((float)value * 10000000.0f);
+            float min_ExchangeScore = (float)max_ExchangeScore / 10000000.0f;
 
-        float rate_toMoney = 1.0f / RatioStrToFloat(Context_Proportion.text);
+            this.Cal_ExchangScore = Convert.ToInt32(min_ExchangeScore * slider_rate);
 
-        SetExchangeScore(this.Cal_ExchangScore);
+            float rate_toMoney = 1.0f / RatioStrToFloat(Context_Proportion.text);
 
-        rate_toMoney = rate_toMoney * 100.0f;
-        int cost = Convert.ToInt32(this.Cal_ExchangScore * rate_toMoney);
-        cost = cost / 100;
+            SetExchangeScore(this.Cal_ExchangScore);
 
-        string new_BalanceMoney = String_Subtraction(Cal_BalanceMoney, cost);
+            rate_toMoney = rate_toMoney * 100.0f;
+            int cost = Convert.ToInt32(this.Cal_ExchangScore * rate_toMoney);
+            cost = cost / 100;
+            
+            string new_BalanceMoney = "";
 
+            if (values.Length == 2)
+                new_BalanceMoney = String_Subtraction(Cal_BalanceMoney, cost);
+            else
+                new_BalanceMoney = (Convert.ToInt32(Cal_BalanceMoney) - cost).ToString();
 
-        string[] values_1 = new_BalanceMoney.Split('.');
+            this.SetUserBalance(new_BalanceMoney);
 
-        this.SetUserBalance(new_BalanceMoney);
-
-        UpdateQuickSelectButtonsState();
+            UpdateQuickSelectButtonsState();
+        }
+        catch(Exception EX)
+        {
+            LogServer.Instance.print("OnSliderValueChange Exception " + EX);
+        }
     }
 
     private string String_Subtraction(string value, int subtrahend)
@@ -306,12 +353,12 @@ public class ExchangePanel : MonoBehaviour {
         gameObject.SetActive(false);
     }
     
-    public void OnEndGame(string credit)
+    public void OnEndGame(int score_credit)
     {
         // 目前顯示分數
-        Content_NowScore.text = credit;
-        string[] temp = credit.Split('.');
-        Cal_NowScore = Convert.ToInt32(temp[0]);
+        Content_NowScore.text = score_credit.ToString();
+
+        Cal_BalanceMoney = score_credit.ToString();
     }
 
     // exit (check out)

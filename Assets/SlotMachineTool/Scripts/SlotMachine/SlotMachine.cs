@@ -19,9 +19,7 @@ public class SlotMachine : MonoBehaviour
     private bool bAutoBreak;
 
     private string[] tilesprites;
-
-    public string Name_Function_FinishStopSpin;
-
+    
     private int cnt_finishstop;
     
     // Use this for initialization

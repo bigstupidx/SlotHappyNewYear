@@ -82,8 +82,10 @@ public class GUIManager : MonoBehaviour
         playbutManager.SetButtonState("Spin", "Disabled");
     }
 
-    public void OnCreateExchange(string str,bool allowspins)
+    public void OnCreateExchange(string str,bool allowspins,string score_credit)
     {
+        displayManager.Set_NowScore(score_credit);
+
         but_dollar.enabled = true;
         but_dollar.SetState(UIButtonColor.State.Normal, false);
 
@@ -96,8 +98,14 @@ public class GUIManager : MonoBehaviour
         
         if(allowspins)
         {
+
             playbutManager.Allow_Spin();
         }
+    }
+
+    public void OnBalanceExchange()
+    {
+        displayManager.Set_NowScore("0");
     }
 
     public void AllowSpin()
@@ -114,9 +122,12 @@ public class GUIManager : MonoBehaviour
         playbutManager.Allow_AutoStop();
     }
 
-    public void OnClick_Spin()
+    public void OnClick_Spin(int score_own)
     {
         playbutManager.OnClick_Spin();
+
+        // 更改可用分數
+        displayManager.Set_NowScore(score_own.ToString());
     }
 
     public void OnClick_GetScore(string score)
@@ -128,9 +139,14 @@ public class GUIManager : MonoBehaviour
         sw_animation = false;
     }
 
-    public void OnStop(SM_State state,JsonData jd)
+    public void OnStop(bool win , SM_State state,JsonData jd)
     {
-        StartCoroutine(GetFlow(state, jd));
+        // 更改局號
+        string WagersID = (jd["WagersID"]).ToString();
+        displayManager.Set_TableNumber(WagersID);
+
+        if(win)
+            StartCoroutine(GetFlow(state, jd));
     }    
     
     public void UpdateBetValue(int betperline)
@@ -139,23 +155,33 @@ public class GUIManager : MonoBehaviour
         displayManager.Set_BetScore(str_betscore);
     }
 
+    public void ShowWindowMsg(string content)
+    {
+        displayManager.OpenAndSet_WindowMsg(content);
+    }
+
     IEnumerator GetFlow(SM_State state,JsonData jd)
     {
-        LogServer.Instance.print("GetFlow ... ");
-
-        LogServer.Instance.print("GetFlow ... 1");
         JsonData jd_lines = jd["Lines"];
         int[] arr_lineid = new int[jd_lines.Count];
         string[] arr_payoff = new string[jd_lines.Count];
+        int sum_line_payoff = 0;
 
-        LogServer.Instance.print("GetFlow ... 2");
+        // 剖析每一條線的資料
+        string output = "output :\n";
         for (int i = 0; i < jd_lines.Count; i++)
         {
 
             double dou = (double)jd_lines[i]["LineID"];
             arr_lineid[i] = Convert.ToInt32(dou);
+            arr_payoff[i] = (jd_lines[i]["Payoff"]).ToString().Split('.')[0];
+            sum_line_payoff += Convert.ToInt32(arr_payoff[i]);
+
+            output += "i " + i + " , arr_lineid[i] " + arr_lineid[i] + " , arr_payoff[i] " + arr_payoff[i] + "\n";
         }
-        
+        output += "sum_line_payoff is " + sum_line_payoff;
+        LogServer.Instance.print(output);
+
         yield return new WaitForSeconds(1.0f);
 
         for(int i = 0; i < jd_lines.Count; i++)
@@ -163,7 +189,9 @@ public class GUIManager : MonoBehaviour
             bingoManger.OpenBingoLine(arr_lineid[i]);
         }
 
-        LogServer.Instance.print("GetFlow ... 3");
+        // 顯示贏得分數
+        displayManager.Set_WinScore(sum_line_payoff.ToString());
+
         yield return new WaitForSeconds(1.0f);
 
         bingoManger.CloseAllBingoLine();
@@ -179,38 +207,32 @@ public class GUIManager : MonoBehaviour
         }
         else
         {
-
-            LogServer.Instance.print("GetFlow ... 4");
+            
             // 執行等待得分流程
             playbutManager.Allow_GetScore();
             sw_animation = true;
             int cnt_idx = 0 ;
-
-            LogServer.Instance.print("GetFlow ... 5");
+            
             while (sw_animation)
             {
                 bingoManger.OpenBingoLine(arr_lineid[cnt_idx]);
-
-                LogServer.Instance.print("GetFlow ... 6");
+                
                 bingoManger.ShowPayoff(arr_lineid[cnt_idx], arr_payoff[cnt_idx]);
-
-                LogServer.Instance.print("GetFlow ... 7");
+                
+                // 當按下得分
                 if (!sw_animation)
                 {
                     bingoManger.CloseAllBingoLine();
-
-                    LogServer.Instance.print("GetFlow ... 8");
+                    
                     bingoManger.ClosePayoff();
                     break;
                 }
 
                 yield return new WaitForSeconds(1.0f);
                 bingoManger.CloseAllBingoLine();
-
-                LogServer.Instance.print("GetFlow ... 9");
+                
                 bingoManger.ClosePayoff();
-
-                LogServer.Instance.print("GetFlow ... 10");
+                
                 cnt_idx++;
 
                 if (cnt_idx == arr_lineid.Length)

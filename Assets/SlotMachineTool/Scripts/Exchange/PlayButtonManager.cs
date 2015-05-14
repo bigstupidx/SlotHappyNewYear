@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class PlayButtonManager : MonoBehaviour {
@@ -8,7 +7,13 @@ public class PlayButtonManager : MonoBehaviour {
     public GF_ButtonObject GFB_Stop;
     public GF_ButtonObject GFB_StopAutoSpin;
     public GF_ButtonObject GFB_GetScore;
-    
+
+    public GF_ButtonObject GFB_MaxBet;
+    public GF_ButtonObject GFB_JackPot;
+    public GF_ButtonObject GFB_CashExchange;
+    public GF_ButtonObject GFB_Settings;
+    public GF_ButtonObject GFB_Dollars;
+
     public BetWheel betWheel;
 
     private Dictionary<string, GF_ButtonObject> Buttons;
@@ -20,6 +25,12 @@ public class PlayButtonManager : MonoBehaviour {
         Buttons.Add("Stop", GFB_Stop);
         Buttons.Add("StopAutoSpin", GFB_StopAutoSpin);
         Buttons.Add("GetScore", GFB_GetScore);
+
+        Buttons.Add("MaxBet", GFB_MaxBet);
+        Buttons.Add("JackPot", GFB_JackPot);
+        Buttons.Add("CashExchange", GFB_CashExchange);
+        Buttons.Add("Settings", GFB_Settings);
+        Buttons.Add("Dollars", GFB_Dollars);
     }
 
     // Use this for initialization
@@ -34,6 +45,10 @@ public class PlayButtonManager : MonoBehaviour {
     public void OnClick_Spin()
     {
         betWheel.Bet_Move_Close();
+
+        Buttons["MaxBet"].SetState("Disabled");
+        Buttons["CashExchange"].SetState("Disabled");
+        Buttons["Dollars"].SetState("Disabled");
     }
     
     public void SetButtonState(string key,string state)
@@ -46,6 +61,11 @@ public class PlayButtonManager : MonoBehaviour {
         Buttons["Stop"].SetState("OFF");
         Buttons["GetScore"].SetState("OFF");
         Buttons["Spin"].SetState("Normal");
+
+
+        Buttons["MaxBet"].SetState("Normal");
+        Buttons["CashExchange"].SetState("Normal");
+        Buttons["Dollars"].SetState("Normal");
 
         betWheel.Bet_Move_Open();
     }
@@ -67,6 +87,5 @@ public class PlayButtonManager : MonoBehaviour {
     {
         Buttons["Stop"].SetState("OFF");
         Buttons["GetScore"].SetState("Normal");
-
     }
 }

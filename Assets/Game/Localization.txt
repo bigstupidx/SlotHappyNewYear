@@ -70,3 +70,4 @@ Step05,"05.或點擊「其他」，自行輸入兌換分數","05.或点击「其
 Step06,"06.點擊「結算離開」將目前分數依原比例\n　  換回可用餘額 ","06.点击「结算离开」将目前分数依原比例\n 　 换回可用余额","06.Click Cash Out Exit button, the credits\n 　 will be exchange back to money by\n 　 original ratio"
 Step07,"07.點擊「確定離開」將離開遊戲","07.点击「确定离开」将离开游戏","07.Click Exit button to leave the game "
 Step08,"08.或點擊遊戲設定中的「離開」，系統將\n 　 依原比例結算分數","08.或点击游戏设定中的「离开」，系统将\n 　 依原比例结算分数","08.Or click exit button in Setting, the\n 　 sysyte mwill cash out the credits by\n 　 original ratio"
+SystemMessage,系統訊息,系统讯息,System Message

@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class DisplayManager : MonoBehaviour {
 
@@ -9,11 +7,13 @@ public class DisplayManager : MonoBehaviour {
     public UILabel Label_WinScore;
     public UILabel Label_TableNum;
 
+    public GF_Window GF_WindowMsg;
+      
     // Use this for initialization
     void Start () {
-        Set_NowScore("");
-        Set_BetScore("");
-        Set_WinScore("");
+        Set_NowScore("0");
+        Set_BetScore("0");
+        Set_WinScore("0");
         Set_TableNumber("");
     }
 	
@@ -33,6 +33,15 @@ public class DisplayManager : MonoBehaviour {
     {
         Label_TableNum.text = str;
     }
+    public void OpenAndSet_WindowMsg(string content)
+    {
+        GF_WindowMsg.SetContext(content);
+        GF_WindowMsg.Open();
+    }
+    public void Close_WindowMsg()
+    {
+        GF_WindowMsg.Close();
+        GF_WindowMsg.SetContext("");
+    }
 
-    
 }

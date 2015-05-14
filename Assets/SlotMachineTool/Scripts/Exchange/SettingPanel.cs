@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class SettingPanel : MonoBehaviour {
+
+    ISetting2GM Isetting2GM;
 
     public UIPanel Win_Setting;
     public GameObject GO_UserPanel;
@@ -18,6 +19,8 @@ public class SettingPanel : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        Isetting2GM = GameManager.Instance;
+
         this.OnClick_Close();
 
         Switchs = new Dictionary<string, bool>();
@@ -32,7 +35,13 @@ public class SettingPanel : MonoBehaviour {
 	
 	}
 
-    public void Open()
+    public void OnClick_Open()
+    {
+        if (Isetting2GM.OpenAllow())
+            Open();
+    }
+
+    void Open()
     {
         Win_Setting.alpha = 1.0f;
     }

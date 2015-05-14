@@ -153,6 +153,44 @@ public class BetWheel : MonoBehaviour {
         }
     }
 
+    public void OnClick_SelectBet()
+    {
+        if (allow_Click)
+        {
+            bcirclemoving = true;
+            allow_Click = false;
+            if (state_open)
+            {
+                touch_panel.SetActive(false);
+                //dark_panel.SetActive(false);
+
+                tween_circle.from = new Vector3(75.0f, 0, 0);
+                tween_circle.to = new Vector3(375.0f, 0, 0);
+                tween_circle.duration = 0.2f;
+                tween_circle.ResetToBeginning();
+                tween_circle.enabled = true;
+            }
+            else
+            {
+                touch_panel.SetActive(true);
+                //dark_panel.SetActive(true);
+
+                tween_circle.from = new Vector3(375.0f, 0, 0);
+                tween_circle.to = new Vector3(75.0f, 0, 0);
+                tween_circle.duration = 0.3f;
+                tween_circle.ResetToBeginning();
+                tween_circle.enabled = true;
+            }
+            bcirclemoving = true;
+        }
+    }
+    
+    public void OnClick_MaxBet()
+    {
+        if (Ibetwheel2GM.MaxBetAllow())
+            MaxBet_Bet();
+    }
+
     // 通知外部新的下注賠率
     private void UpdateBetValue()
     {
@@ -186,37 +224,6 @@ public class BetWheel : MonoBehaviour {
         allow_Click = sw;
     }
 
-    public void OnClick_SelectBet()
-    {
-        if (allow_Click)
-        {
-            bcirclemoving = true;
-            allow_Click = false;
-            if (state_open)
-            {
-                touch_panel.SetActive(false);
-                //dark_panel.SetActive(false);
-
-                tween_circle.from = new Vector3(75.0f, 0, 0);
-                tween_circle.to = new Vector3(375.0f, 0, 0);
-                tween_circle.duration = 0.2f;
-                tween_circle.ResetToBeginning();
-                tween_circle.enabled = true;
-            }
-            else
-            {
-                touch_panel.SetActive(true);
-                //dark_panel.SetActive(true);
-
-                tween_circle.from = new Vector3(375.0f, 0, 0);
-                tween_circle.to = new Vector3(75.0f, 0, 0);
-                tween_circle.duration = 0.3f;
-                tween_circle.ResetToBeginning();
-                tween_circle.enabled = true;
-            }
-            bcirclemoving = true;
-        }
-    }
     
     void Update_Rotate()
     {
@@ -557,7 +564,8 @@ public class BetWheel : MonoBehaviour {
                 break;
         }
     }
-    public void MaxBet_Bet()
+
+    void MaxBet_Bet()
     {
         if (Number_Obj_1.bitmapFont == m_font_R1)
             initNumber(NumberObj.Length, 01, 02, 03, 04, NumberObj.Length - 3, NumberObj.Length - 2, NumberObj.Length - 1);

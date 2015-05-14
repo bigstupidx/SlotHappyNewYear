@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 using LitJson;
 
@@ -18,10 +16,10 @@ public class RtmpS2C : MonoBehaviour
         string event_name = _result.Substring(0, offset);
 
         string event_msg = _result.Substring(offset);
+        
+        LogServer.Instance.print("event_name " + event_name + "\nevent_msg " + event_msg);
 
-        print("event_name " + event_name + "\nevent_msg " + event_msg);
-
-        switch(event_name)
+        switch (event_name)
         {
             case "OnClose":
                 IRtmpS2C.OnClose(event_msg);
@@ -66,7 +64,7 @@ public class RtmpS2C : MonoBehaviour
                 break;
             default:
 
-                print("Can't found this event . event_name " + event_name);
+                LogServer.Instance.print("Can't found this event . event_name " + event_name);
                 break;
 
         }
