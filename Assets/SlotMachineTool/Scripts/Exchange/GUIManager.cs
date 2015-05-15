@@ -7,6 +7,9 @@ using LitJson;
 
 public class GUIManager : MonoBehaviour
 {
+
+    public delegate void CallBack();
+    
     public struct GUIInfoBuffer
     {
         public string Score_endgame;
@@ -147,7 +150,11 @@ public class GUIManager : MonoBehaviour
 
         if(win)
             StartCoroutine(GetFlow(state, jd));
-    }    
+        else
+        {
+            StartCoroutine(WaitAWhile(1.0f, IguiManager2GM.Finish_OnStop_Lose));
+        }
+    }
     
     public void UpdateBetValue(int betperline)
     {
@@ -158,6 +165,13 @@ public class GUIManager : MonoBehaviour
     public void ShowWindowMsg(string content)
     {
         displayManager.OpenAndSet_WindowMsg(content);
+    }
+
+    IEnumerator WaitAWhile(float time,CallBack callback)
+    {
+        yield return new WaitForSeconds(time);
+
+        callback();
     }
 
     IEnumerator GetFlow(SM_State state,JsonData jd)

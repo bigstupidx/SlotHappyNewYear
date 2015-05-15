@@ -64,6 +64,7 @@ public class GF_ButtonObject : MonoBehaviour
 
     public void SetState(string state)
     {
+        LogServer.Instance.print(gameObject.name + " SetState " + state + "\n");
         switch (state)
         {
             case "Normal":
@@ -96,6 +97,10 @@ public class GF_ButtonObject : MonoBehaviour
             if (bClickDisable)
                 SetState("Disabled");
 
+            if (!string.IsNullOrEmpty(Func_normal.MethodName))
+            {
+                InvokeFun("NormalPress");
+            }
             //this.CallLua(luaFunc_normal.GameObject, luaFunc_normal.MethodName, luaFunc_normal.parameter);
         }
     }
@@ -143,6 +148,10 @@ public class GF_ButtonObject : MonoBehaviour
         }
         else if(str == "NormalPress")
         {
+            object obj = Func_normal.GameObject.GetComponent(Func_normal.ComponentName);
+            Type thisType = Func_normal.GameObject.GetComponent(Func_normal.ComponentName).GetType();
+            MethodInfo theMethod = thisType.GetMethod(Func_normal.MethodName);
+            theMethod.Invoke(obj, null);
 
         }
     }

@@ -1,6 +1,8 @@
 ﻿public interface ISlotMachine2GM
 {
-    void OnClick_Spin(bool autospin);
+    void OnClick_Spin();
+
+    void OnClick_AutoSpin();
 
     void OnClick_StopAutoSpin();
 

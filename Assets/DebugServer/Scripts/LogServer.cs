@@ -28,7 +28,7 @@ public class LogServer : MonoBehaviour
     }
     public void print(string str)
     {
-        WriteToLServer(str);
+        WriteToLServer(str + "\n");
     }
 
     void Connect()
@@ -50,23 +50,23 @@ public class LogServer : MonoBehaviour
         }
         catch (Exception EX)
         {
-            Debug.Log("EX : " + EX);
+            Debug.Log("Connect Exception : " + EX);
         }
 
     }
 
     void WriteToLServer(string message)
     {
-
         if (tcpClient.Connected)
         {
             // Translate the passed message into ASCII and store it as a Byte array.
             Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
 
             NetworkStream stream = tcpClient.GetStream();
+            
             // Send the message to the connected TcpServer. 
             stream.Write(data, 0, data.Length);
-        }
+        }        
     }
 
     IEnumerator Read()

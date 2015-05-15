@@ -49,9 +49,9 @@ public class SlotMachine : MonoBehaviour
 
                 fspeeds[idx] -= (2000 * Time.deltaTime);
 
-                if (fspeeds[idx] <= 700.0f)
+                if (fspeeds[idx] <= 1000.0f)
                 {
-                    fspeeds[idx] = 700.0f;
+                    fspeeds[idx] = 1000.0f;
                     tileLines[idx].SetSprites(GetTileSpriteInfo(idx));
                     tileLines[idx].StopRun(this.FinishSpin);
                 }
@@ -66,15 +66,16 @@ public class SlotMachine : MonoBehaviour
         else if(bAutoBreak)
         {
             int cnt_over = 0;
+            float fspeed = 2000 * Time.deltaTime;
             for (int i = 0; i < tileLines.Length; i++)
             {
-                if (fspeeds[i] > 700.0f)
+                if (fspeeds[i] > 1000.0f)
                 {
-                    fspeeds[i] -= (1000 * Time.deltaTime);
+                    fspeeds[i] -= fspeed;
 
-                    if (fspeeds[i] <= 700.0f)
+                    if (fspeeds[i] <= 1000.0f)
                     {
-                        fspeeds[i] = 700.0f;
+                        fspeeds[i] = 1000.0f;
                         tileLines[i].SetSprites(GetTileSpriteInfo(i));
                         tileLines[i].StopRun(this.FinishSpin);
                     }
@@ -96,12 +97,12 @@ public class SlotMachine : MonoBehaviour
     
     public void OnClick_Spin()
     {
-        Islotmachine2GM.OnClick_Spin(false);
+        Islotmachine2GM.OnClick_Spin();
     }
 
     public void OnClick_AutoSpin()
     {
-        Islotmachine2GM.OnClick_Spin(true);
+        Islotmachine2GM.OnClick_AutoSpin();
     }
 
     public void OnClick_StopAutoSpin()
@@ -166,8 +167,8 @@ public class SlotMachine : MonoBehaviour
         {
             tileLines[idx].SetSprites(GetTileSpriteInfo(idx));
 
-            if(tileLines[idx].GetSpeed() > 700.0f)
-                tileLines[idx].SetSpeed(700.0f);
+            if(tileLines[idx].GetSpeed() > 1000.0f)
+                tileLines[idx].SetSpeed(1000.0f);
             tileLines[idx].StopRun(FinishSpin);
         }
     }
@@ -205,7 +206,7 @@ public class SlotMachine : MonoBehaviour
 
         for(int i = 0; i < 5; i++)
         {
-            if (fspeeds[i] > 700.0f)
+            if (fspeeds[i] > 1000.0f)
                 return i;            
         }
         return -1;
@@ -223,7 +224,7 @@ public class SlotMachine : MonoBehaviour
         {
             cnt_finishstop = 0;
 
-            Islotmachine2GM.OnStop();
+            //Islotmachine2GM.OnStop();
         }
     }
 

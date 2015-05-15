@@ -15,11 +15,15 @@ public class Debug_SlotMachineControl : MonoBehaviour {
         if(GUILayout.Button("Spin",GUILayout.Width(100.0f),GUILayout.Height(50.0f)))
         {
             slotmachine.StartSpin();
-            string[] info = new string[] {"001", "001", "001", "001", "001",
-            "001","001","001","001","001",
-            "001","001","001","001","001",
-            "001","001","001","001","001",
-            "001","001","001","001","001"};
+            string[] info = new string[15];
+
+            for(int i = 0; i < 15; i++)
+            {
+                int temp = Random.Range(1, 15);
+
+                info[i] = temp.ToString("000");
+            }
+
             slotmachine.SetTileSpriteInfo(info);
         }
 
@@ -31,6 +35,11 @@ public class Debug_SlotMachineControl : MonoBehaviour {
         if (GUILayout.Button("stop Spin", GUILayout.Width(100.0f), GUILayout.Height(50.0f)))
         {
             slotmachine.OnClick_Stop();
+        }
+
+        if (GUILayout.Button("stop immediately ", GUILayout.Width(100.0f), GUILayout.Height(50.0f)))
+        {
+            slotmachine.OnClick_StartStop_Immediate();
         }
     }
 }

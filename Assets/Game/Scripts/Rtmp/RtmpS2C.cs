@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using System;
 using LitJson;
 
 public class RtmpS2C : MonoBehaviour
@@ -10,63 +11,73 @@ public class RtmpS2C : MonoBehaviour
     // 訊息分流
     public void OnServerMSG(string _result)
     {
-
-        int offset = _result.IndexOf('[');
-
-        string event_name = _result.Substring(0, offset);
-
-        string event_msg = _result.Substring(offset);
-        
-        LogServer.Instance.print("event_name " + event_name + "\nevent_msg " + event_msg);
-
-        switch (event_name)
+        try
         {
-            case "OnClose":
-                IRtmpS2C.OnClose(event_msg);
-                break;
+            LogServer.Instance.print(_result);
 
-            case "OnConnect":
+            int offset = _result.IndexOf('[');
 
-                JsonData jd_connect = JsonMapper.ToObject(event_msg);
-                if (!((bool)jd_connect[0]["disconnected"]))
-                    IRtmpS2C.OnConnect(event_msg);
-                break;
-            case "onLogin":
+            string event_name = _result.Substring(0, offset);
 
-                IRtmpS2C.OnLogin(event_msg);
-                break;
-            case "onGetMachineList":
+            string event_msg = _result.Substring(offset);
 
-                IRtmpS2C.OnGetMachineList(event_msg);
-                break;
-            case "onTakeMachine":
+            //LogServer.Instance.print("event_name " + event_name + "\nevent_msg " + event_msg);
 
-                IRtmpS2C.OnTakeMachine(event_msg);
-                break;
-            case "onOnLoadInfo2":
+            switch (event_name)
+            {
+                case "OnClose":
 
-                IRtmpS2C.OnonLoadInfo2(event_msg);
-                break;
-            case "onCreditExchange":
+                    LogServer.Instance.print("OnClose");
+                    IRtmpS2C.OnClose(event_msg);
+                    break;
 
-                IRtmpS2C.onCreditExchange(event_msg);
-                break;
-            case "onBalanceExchange":
+                case "OnConnect":
 
-                IRtmpS2C.onBalanceExchange(event_msg);
-                break;
-            case "onBeginGame":
+                    JsonData jd_connect = JsonMapper.ToObject(event_msg);
+                    if (!((bool)jd_connect[0]["disconnected"]))
+                        IRtmpS2C.OnConnect(event_msg);
+                    break;
+                case "onLogin":
 
-                IRtmpS2C.onBeginGame(event_msg);
-                break;
-            case "onEndGame":
-                IRtmpS2C.onEndGame(event_msg);
-                break;
-            default:
+                    IRtmpS2C.OnLogin(event_msg);
+                    break;
+                case "onGetMachineList":
 
-                LogServer.Instance.print("Can't found this event . event_name " + event_name);
-                break;
+                    IRtmpS2C.OnGetMachineList(event_msg);
+                    break;
+                case "onTakeMachine":
 
+                    IRtmpS2C.OnTakeMachine(event_msg);
+                    break;
+                case "onOnLoadInfo2":
+
+                    IRtmpS2C.OnonLoadInfo2(event_msg);
+                    break;
+                case "onCreditExchange":
+
+                    IRtmpS2C.onCreditExchange(event_msg);
+                    break;
+                case "onBalanceExchange":
+
+                    IRtmpS2C.onBalanceExchange(event_msg);
+                    break;
+                case "onBeginGame":
+
+                    IRtmpS2C.onBeginGame(event_msg);
+                    break;
+                case "onEndGame":
+                    IRtmpS2C.onEndGame(event_msg);
+                    break;
+                default:
+
+                    LogServer.Instance.print("Can't found this event . event_name " + event_name);
+                    break;
+
+            }
+        }
+        catch(Exception EX)
+        {
+            LogServer.Instance.print("OnServerMSG Exception " + EX);
         }
     }
 

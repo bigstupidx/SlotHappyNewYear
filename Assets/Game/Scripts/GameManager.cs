@@ -94,13 +94,13 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
     void Init()
     {
-        
+        /*
         // 初始化開分面板
         exchangePanel.Setup(Global_UserInfo.Gl_onloadInfo.balance,
             Global_UserInfo.Gl_onloadInfo.defaultBase,
             Global_UserInfo.Gl_onloadInfo.loginName,
             Global_UserInfo.Gl_onloadInfo.Base);
-            
+            */
         RtmpS2C rtmps2c = GameObject.Find("ServerToClientObject").GetComponent<RtmpS2C>();
         rtmps2c.IRtmpS2C = this;
     }
@@ -108,6 +108,23 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
     #region Rtmp Listener
     public override void OnClose(string str)
     {
+        try
+        {
+            JsonData jd = JsonMapper.ToObject(str);
+            if ((bool)jd[0]["OnClose"])
+            {
+                string domain = LoginManager.loginInfo.Domain;
+                string accountname = LoginManager.loginInfo.AccountName;
+
+                string url = "http://" + domain + "/app/WebService/view/display.php/Logout?username=" + accountname;
+
+                StartCoroutine(DoLoginout(url));
+            }
+        }
+        catch(Exception EX)
+        {
+            LogServer.Instance.print("OnClose Exception " + EX);
+        }
     }
 
     public override void OnConnect(string str)
@@ -132,38 +149,60 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
     public override void onCreditExchange(string str)
     {
-        JsonData jd = JsonMapper.ToObject(str);
-        string balance = (jd[0]["data"]["Balance"]).ToString();
-        string betBase = (jd[0]["data"]["BetBase"]).ToString();
+        try
+        {
+            JsonData jd = JsonMapper.ToObject(str);
 
-        string credit = (jd[0]["data"]["Credit"]).ToString();
+            if ((bool)jd[0]["event"])
+            {
+                string balance = (jd[0]["data"]["Balance"]).ToString();
+                string betBase = (jd[0]["data"]["BetBase"]).ToString();
 
-        string[] get_Int = credit.Split('.');
+                string credit = (jd[0]["data"]["Credit"]).ToString();
 
-        exchangePanel.OnCreditExchange(balance, betBase, get_Int[0]);
+                string[] get_Int = credit.Split('.');
 
-        // 設定玩家可用分數
-        m_GameInfo.score_own = Convert.ToInt32(get_Int[0]);
+                exchangePanel.OnCreditExchange(balance, betBase, get_Int[0]);
 
-        bool allowspin = false;
-        if (m_GameInfo.score_betoneline > 0 && m_GameInfo.score_own > 0)
-            allowspin = true;
-        
-        // 恢復某些按鈕，設定Display可用分數
-        guiManager.OnCreateExchange(betBase, allowspin, get_Int[0]);
+                // 設定玩家可用分數
+                m_GameInfo.score_own = Convert.ToInt32(get_Int[0]);
+
+                bool allowspin = false;
+                if (m_GameInfo.score_betoneline > 0 && m_GameInfo.score_own > 0)
+                    allowspin = true;
+
+                // 恢復某些按鈕，設定Display可用分數
+                guiManager.OnCreateExchange(betBase, allowspin, get_Int[0]);
+            }
+            else
+            {
+                LogServer.Instance.print("onCreditExchange event : false" );
+            }
+        }
+        catch(Exception EX)
+        {
+            LogServer.Instance.print("onCreditExchange Exception " + EX);
+        }
     }
 
     public override void onBalanceExchange(string str)
     {
-        m_GameInfo.score_own = 0;
-        guiManager.OnBalanceExchange();
+        try
+        {
+            m_GameInfo.score_own = 0;
+            guiManager.OnBalanceExchange();
 
-        JsonData jd = JsonMapper.ToObject(str);
-        string transcredit = (jd[0]["data"]["TransCredit"]).ToString();
-        string amount = (jd[0]["data"]["Amount"]).ToString();
-        string balance = (jd[0]["data"]["Balance"]).ToString();
+            JsonData jd = JsonMapper.ToObject(str);
+            string transcredit = (jd[0]["data"]["TransCredit"]).ToString();
+            string amount = (jd[0]["data"]["Amount"]).ToString();
+            string balance = (jd[0]["data"]["Balance"]).ToString();
 
-        exchangePanel.OnBalanceExchange(transcredit , amount , balance);
+            exchangePanel.OnBalanceExchange(transcredit, amount, balance);
+        }
+        catch (Exception EX)
+        {
+            LogServer.Instance.print("onBalanceExchange Exception " + EX);
+        }
     }
 
     public override void onBeginGame(string str)
@@ -232,6 +271,22 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         {
             // 錯誤資訊
             
+        }
+        else
+        {
+            // 更新兌換面板的資料
+            string score = (m_jd_onEndGame[0]["data"]["Credit"]).ToString();
+
+            int num_score = 0;
+            string[] values = score.Split('.');
+            if (values.Length == 2)
+                num_score = Convert.ToInt32(values[0]);
+            else
+                num_score = Convert.ToInt32(score);
+            
+            // 更新可用分數
+            m_GameInfo.score_own = num_score;
+            exchangePanel.OnChangeNowScore(num_score);
         }
 
     }
@@ -323,60 +378,69 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         }
     }
     
-    void ISlotMachine2GM.OnClick_Spin(bool autospin)
+    void ISlotMachine2GM.OnClick_Spin()
     {
         // 關閉不允許Spin開啟的按鍵
         m_but_allowInfo.Maxbet = false;
         m_but_allowInfo.Exchange = false;
         m_but_allowInfo.Dollar = false;
 
-        
+        Spin();
+    }
+
+    void Spin()
+    {
         int betscore = m_GameInfo.score_betoneline * 50;
 
-
-        LogServer.Instance.print("betscore " + betscore);
         if (m_GameInfo.score_own >= betscore)
         {
-            if (autospin)
-                m_GameInfo.f_sm_state = SM_State.AUTOSPIN;
-
-            LogServer.Instance.print("1 score_own " + m_GameInfo.score_own);
+            // 計算可用分數
             m_GameInfo.score_own -= betscore;
 
-            LogServer.Instance.print("2 score_own " + m_GameInfo.score_own);
-
+            // Disable 4組按鍵 ， 更改可用分數顯示
             guiManager.OnClick_Spin(m_GameInfo.score_own);
 
-            // 可用分數足夠
             RtmpC2S.BeginGame("beginGame2", 50, m_GameInfo.score_betoneline);
 
             slotmachine.StartSpin();
-            
         }
         else
         {
+            if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
+            {
+                // 結束自動轉
+                m_GameInfo.f_sm_state = SM_State.NORMAL;
+            }
+
             // 可用分數不足，跳出通知訊息。
-            string title = "";
             string context = "";
             string language_id = Localization.language;
             if (language_id == "TW")
-            {
                 context = tw_ErrorMsg[0];
-            }
             else if (language_id == "CN")
-            {
                 context = cn_ErrorMsg[0];
-            }
             else
-            {
                 context = en_ErrorMsg[0];
-            }
 
             guiManager.ShowWindowMsg(context);
+
+            // 復原按鍵
             guiManager.AllowSpin();
+
+            m_but_allowInfo.Maxbet = true;
+            m_but_allowInfo.Exchange = true;
+            m_but_allowInfo.Dollar = true;
         }
+
     }
-    
+
+    void ISlotMachine2GM.OnClick_AutoSpin()
+    {
+        m_GameInfo.f_sm_state = SM_State.AUTOSPIN;
+
+        Spin();
+    }
+
     void ISlotMachine2GM.OnClick_StopAutoSpin()
     {
         m_GameInfo.f_sm_state = SM_State.NORMAL;
@@ -384,55 +448,53 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
     void ISlotMachine2GM.OnClick_GetScore()
     {
-        string score = (m_jd_onEndGame[0]["data"]["Credit"]).ToString();
-        guiManager.OnClick_GetScore(score);
-
-        int num_score = 0;
-        string[] values = score.Split('.');
-        if(values.Length == 2)
-            num_score = Convert.ToInt32(values[0]);
-        else
-            num_score = Convert.ToInt32(score);
         // 更新可用分數
-        m_GameInfo.score_own = num_score;
-        exchangePanel.OnEndGame(num_score);
+        guiManager.OnClick_GetScore(m_GameInfo.score_own.ToString());
     }
 
     // slotmachine totally stop.
     void ISlotMachine2GM.OnStop()
     {
-
-        if (m_GameInfo.f_sm_state == SM_State.FREEGAME)
+        // 贏分
+        if (m_jd_onBegingame[0]["data"]["Lines"].Count > 0)
         {
-
-        }
-        else if(m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
-        {
-            if (m_jd_onBegingame[0]["data"]["Lines"].Count > 0)
+            if (m_GameInfo.f_sm_state == SM_State.FREEGAME)
+            {
+            }
+            else if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
             {
                 // 執行等待得分流程
-                guiManager.OnStop(true,m_GameInfo.f_sm_state,m_jd_onBegingame);
+                guiManager.OnStop(true, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
             }
             else
             {
-                guiManager.OnStop(false, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
-                ((ISlotMachine2GM)this).OnClick_Spin(true);
+                LogServer.Instance.print("執行等待得分流程.");
+                // 執行等待得分流程
+                guiManager.OnStop(true, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
             }
         }
         else
         {
-            if(m_jd_onBegingame[0]["data"]["Lines"].Count > 0)
+            // 輸分
+            if (m_GameInfo.f_sm_state == SM_State.FREEGAME)
             {
-                LogServer.Instance.print("執行等待得分流程.");
-                // 執行等待得分流程
-                guiManager.OnStop(true,m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
+            }
+            else if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
+            {
+                guiManager.OnStop(false, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
+                //Spin();
             }
             else
             {
                 guiManager.OnStop(false, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
+
                 guiManager.AllowSpin();
+
+                m_but_allowInfo.Maxbet = true;
+                m_but_allowInfo.Exchange = true;
+                m_but_allowInfo.Dollar = true;
             }
-        }
+        }        
     }    
 
     bool IBetWheel2GM.MaxBetAllow()
@@ -455,6 +517,17 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             guiManager.AllowSpin();
     }
     
+    void IGUIManager2GM.Finish_OnStop_Lose()
+    {
+        if (m_GameInfo.f_sm_state == SM_State.FREEGAME)
+        {
+        }
+        else if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
+        {
+            Spin();
+        }
+    }
+
     void IGUIManager2GM.Finish_GetScore()
     {
         if (m_GameInfo.f_sm_state == SM_State.FREEGAME)
@@ -462,7 +535,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         }
         else if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
         {
-            ((ISlotMachine2GM)this).OnClick_Spin(true);
+            Spin();
         }
         else
         {
@@ -479,6 +552,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         return m_but_allowInfo.Settings;            
     }
 
+    #region Table
     private string[] en_ErrorMsg =
    {
         "NOT_ENOUGH_CREDIT",
@@ -586,4 +660,5 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         "租卡余额不足",                 //30
 
     };
+    #endregion
 }

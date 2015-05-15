@@ -299,8 +299,6 @@ public class ExchangePanel : MonoBehaviour {
 
         if (idx_ratio_keep != idx_ratio)
         {
-            print("比例不一樣 idx_ratio_keep " + idx_ratio_keep + " idx_ratio " + idx_ratio + " Cal_ExchangScore " + Cal_ExchangScore);
-
             if (Cal_ExchangScore > 0)
             {
                 // 表示會收到 開洗分事件
@@ -320,8 +318,6 @@ public class ExchangePanel : MonoBehaviour {
         }
         else
         {
-            print("比例一樣 rate " + ratiobases[idx_ratio] + " , Cal_ExchangScore " + Cal_ExchangScore);
-
             if (Cal_ExchangScore > 0)
             {
                 Iexchange2GM.CreateExchange(ratiobases[idx_ratio], Cal_ExchangScore);
@@ -353,12 +349,12 @@ public class ExchangePanel : MonoBehaviour {
         gameObject.SetActive(false);
     }
     
-    public void OnEndGame(int score_credit)
+    public void OnChangeNowScore(int score_credit)
     {
         // 目前顯示分數
         Content_NowScore.text = score_credit.ToString();
 
-        Cal_BalanceMoney = score_credit.ToString();
+        Cal_NowScore = score_credit;
     }
 
     // exit (check out)
@@ -373,14 +369,12 @@ public class ExchangePanel : MonoBehaviour {
         // 如果目前分數大於0
         if (Cal_NowScore > 0)
         {
-            print("執行 洗分後 進入結算面板");
             Iexchange2GM.BalanceExchange(false);
 
             //LuaManager_new.Instance().CallLuaFuction("DoBalanceExchange");
         }
         else
         {
-            print("執行 不洗分 進入結算面板");
             OnBalanceExchange("0", "0", Cal_BalanceMoney);
         }
     }
