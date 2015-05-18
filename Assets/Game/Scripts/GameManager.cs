@@ -11,6 +11,7 @@ public struct GameInfo
     //每線下注分
     public int score_betoneline;
 
+    public bool sw_autorun;
     /*
         0 : Normal
         1 : Autospin
@@ -18,10 +19,11 @@ public struct GameInfo
     */
     public SM_State f_sm_state;
 
-    public GameInfo(int pa1,int pa2, SM_State state)
+    public GameInfo(int pa1,int pa2, bool pa3, SM_State state)
     {
         score_own = pa1;
         score_betoneline = pa2;
+        sw_autorun = pa3;
         f_sm_state = state;
     }
 }
@@ -52,6 +54,7 @@ public enum SM_State
 }
 
 public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM , IGUIManager2GM , IBetWheel2GM ,ISetting2GM
+    , IWinFreeGame2GM
 {
 
     public UIPanel Win_SystemMessage;
@@ -78,7 +81,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
     // Use this for initialization
     void Start () {
 
-        m_GameInfo = new GameInfo(0,0,0);
+        m_GameInfo = new GameInfo(0,0,false,0);
 
         m_but_allowInfo = new ButtonAllowTable(false, false, false, false, false);
 
@@ -94,13 +97,13 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
     void Init()
     {
-        /*
+        
         // 初始化開分面板
         exchangePanel.Setup(Global_UserInfo.Gl_onloadInfo.balance,
             Global_UserInfo.Gl_onloadInfo.defaultBase,
             Global_UserInfo.Gl_onloadInfo.loginName,
             Global_UserInfo.Gl_onloadInfo.Base);
-            */
+            
         RtmpS2C rtmps2c = GameObject.Find("ServerToClientObject").GetComponent<RtmpS2C>();
         rtmps2c.IRtmpS2C = this;
     }
@@ -212,45 +215,8 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         
         if ((bool)m_jd_onBegingame[0]["event"])
         {
-            JsonData jd_fg = m_jd_onBegingame[0]["data"]["FreeGame"];
-
             string WagersID = (m_jd_onBegingame[0]["data"]["WagersID"]).ToString();
-
-            if (jd_fg.IsObject)
-            {
-
-            }
-
-            // 剖析 Cards 欄位
-            string cards = (m_jd_onBegingame[0]["data"]["Cards"]).ToString();
-            string[] tileinfo = cards.Split(',', '-');
-
-            string str_show = "";
-            for(int i = 0; i < tileinfo.Length; i++)
-            {
-                int num = Convert.ToInt32(tileinfo[i]);
-                tileinfo[i] = num.ToString("000");
-                str_show += tileinfo[i] + " ";
-            }
-            LogServer.Instance.print("[Debug] tileinfo " + str_show);
-
-            // 將資料塞入拉霸機
-            slotmachine.SetTileSpriteInfo(tileinfo);
-
-            // 依拉霸機的狀態選擇下一個按鈕的種類
-            if(m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
-            {
-                slotmachine.OnClick_StartStop_Immediate();
-                // 顯示停止自動轉的按鍵
-                guiManager.AllowAutoStop();
-            }
-            else
-            {
-                slotmachine.OnClick_StartStop();
-                
-                // 顯示 停止鍵 
-                guiManager.AllowStop();
-            }
+            
 
             // 清除上一筆資料緩存
             m_jd_onEndGame = null;
@@ -274,6 +240,40 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         }
         else
         {
+            // 剖析 Cards 欄位
+            string cards = (m_jd_onBegingame[0]["data"]["Cards"]).ToString();
+            string[] tileinfo = cards.Split(',', '-');
+
+            string str_show = "";
+            for (int i = 0; i < tileinfo.Length; i++)
+            {
+                int num = Convert.ToInt32(tileinfo[i]);
+                tileinfo[i] = num.ToString("000");
+                str_show += tileinfo[i] + " ";
+            }
+            LogServer.Instance.print("[Debug] tileinfo " + str_show);
+
+            // 將資料塞入拉霸機
+            slotmachine.SetTileSpriteInfo(tileinfo);
+
+            // 依拉霸機的狀態選擇下一個按鈕的種類
+            if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
+            {
+                slotmachine.OnClick_StartStop_Immediate();
+                // 顯示停止自動轉的按鍵
+                guiManager.AllowAutoStop();
+            }
+            else
+            {
+                slotmachine.OnClick_StartStop();
+
+                // 顯示 停止鍵 
+                guiManager.AllowStop();
+            }
+
+            // **** **** **** //
+            //  EndGame Parts
+            // **** **** **** //
             // 更新兌換面板的資料
             string score = (m_jd_onEndGame[0]["data"]["Credit"]).ToString();
 
@@ -433,17 +433,20 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         }
 
     }
-
+    
     void ISlotMachine2GM.OnClick_AutoSpin()
     {
         m_GameInfo.f_sm_state = SM_State.AUTOSPIN;
 
+        m_GameInfo.sw_autorun = true;
         Spin();
     }
 
     void ISlotMachine2GM.OnClick_StopAutoSpin()
     {
         m_GameInfo.f_sm_state = SM_State.NORMAL;
+
+        m_GameInfo.sw_autorun = false;
     }
 
     void ISlotMachine2GM.OnClick_GetScore()
@@ -464,13 +467,13 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             else if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
             {
                 // 執行等待得分流程
-                guiManager.OnStop(true, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
+                guiManager.OnStop(true, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"], m_GameInfo.score_own);
             }
             else
             {
                 LogServer.Instance.print("執行等待得分流程.");
                 // 執行等待得分流程
-                guiManager.OnStop(true, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
+                guiManager.OnStop(true, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"], m_GameInfo.score_own);
             }
         }
         else
@@ -481,20 +484,13 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             }
             else if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
             {
-                guiManager.OnStop(false, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
-                //Spin();
+                guiManager.OnStop(false, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"], m_GameInfo.score_own);
             }
             else
             {
-                guiManager.OnStop(false, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
-
-                guiManager.AllowSpin();
-
-                m_but_allowInfo.Maxbet = true;
-                m_but_allowInfo.Exchange = true;
-                m_but_allowInfo.Dollar = true;
+                guiManager.OnStop(false, m_GameInfo.f_sm_state, m_jd_onBegingame[0]["data"], m_GameInfo.score_own);
             }
-        }        
+        }
     }    
 
     bool IBetWheel2GM.MaxBetAllow()
@@ -517,19 +513,45 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             guiManager.AllowSpin();
     }
     
-    void IGUIManager2GM.Finish_OnStop_Lose()
+    void IGUIManager2GM.Finish_OnStop()
     {
-        if (m_GameInfo.f_sm_state == SM_State.FREEGAME)
+        try
         {
+            bool sw_freegame = false;
+            // 檢查本次Spin有無免費遊戲
+            if (m_jd_onBegingame[0]["data"]["FreeGame"].IsObject)
+            {
+                sw_freegame = true;
+            }
+
+            // 如果有免費遊戲
+            if (sw_freegame)
+            { // 通知玩家獲得免費遊戲以及次數
+                guiManager.ShowGetFreeGame(m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"].Count);
+
+                LogServer.Instance.print("Finish_OnStop sw_freegame is true");
+            }
+            else if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
+                Spin();
+            else
+            {
+                guiManager.AllowSpin();
+
+                m_but_allowInfo.Maxbet = true;
+                m_but_allowInfo.Exchange = true;
+                m_but_allowInfo.Dollar = true;
+            }
         }
-        else if (m_GameInfo.f_sm_state == SM_State.AUTOSPIN)
+        catch(Exception EX)
         {
-            Spin();
+            LogServer.Instance.print("Finish_OnStop Exception " + EX);
         }
     }
 
+    /*
     void IGUIManager2GM.Finish_GetScore()
     {
+
         if (m_GameInfo.f_sm_state == SM_State.FREEGAME)
         {
         }
@@ -546,15 +568,84 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             m_but_allowInfo.Dollar = true;
         }
     }
+    */
 
     bool ISetting2GM.OpenAllow()
     {
-        return m_but_allowInfo.Settings;            
+        return m_but_allowInfo.Settings;
+    }
+
+    void IWinFreeGame2GM.OnClick_CloseWinFreeGame()
+    {
+        // 執行免費遊戲
+        StartCoroutine(FreeGame_Spin());
+    }
+    
+    IEnumerator FreeGame_Spin()
+    {
+        int cnt_freegame = m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"].Count;
+
+        int idx = 0;
+        do
+        {
+            slotmachine.StartSpin();
+
+            yield return new WaitForSeconds(1.0f);
+            
+            // 剖析 Cards 欄位
+            string cards = (m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"][idx]["Cards"]).ToString();
+            string[] tileinfo = cards.Split(',', '-');
+
+            string str_show = "";
+            for (int i = 0; i < tileinfo.Length; i++)
+            {
+                int num = Convert.ToInt32(tileinfo[i]);
+                tileinfo[i] = num.ToString("000");
+                str_show += tileinfo[i] + " ";
+            }
+            LogServer.Instance.print("[Debug] tileinfo " + str_show);
+
+            // 將資料塞入拉霸機
+            slotmachine.SetTileSpriteInfo(tileinfo);
+
+            slotmachine.OnClick_StartStop_Immediate();
+
+
+            yield return new WaitForSeconds(1.0f);
+
+
+            // 贏分
+            if (m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"][idx]["Lines"].Count > 0)
+            {
+                guiManager.OnFreeGameSpinWin(m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"][idx]);
+
+                // 沒有Call Back 這裡用計時器模擬
+                yield return new WaitForSeconds(3.0f);
+            }
+
+            cnt_freegame--;
+            idx++;            
+        }
+        while (cnt_freegame > 0);
+
+        if(m_GameInfo.sw_autorun)
+        {
+            m_GameInfo.f_sm_state = SM_State.AUTOSPIN;
+            Spin();
+        }
+        else
+        {
+            guiManager.AllowSpin();
+
+            m_but_allowInfo.Maxbet = true;
+            m_but_allowInfo.Exchange = true;
+            m_but_allowInfo.Dollar = true;
+        }
     }
 
     #region Table
     private string[] en_ErrorMsg =
-   {
+    {
         "NOT_ENOUGH_CREDIT",
         "DISCONNECT",
         "USER_IS_NOT_EXIST",
@@ -586,7 +677,6 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
         "Internet disconnection,please restart the game or check the connection status",
         "Load BonusGame resource fail",
         "Not Enough rent point.",             //30
-
     };
 
     private string[] tw_ErrorMsg =

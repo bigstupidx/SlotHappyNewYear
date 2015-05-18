@@ -57,6 +57,7 @@ public class LogServer : MonoBehaviour
 
     void WriteToLServer(string message)
     {
+        
         if (tcpClient.Connected)
         {
             // Translate the passed message into ASCII and store it as a Byte array.
@@ -66,7 +67,7 @@ public class LogServer : MonoBehaviour
             
             // Send the message to the connected TcpServer. 
             stream.Write(data, 0, data.Length);
-        }        
+        }     
     }
 
     IEnumerator Read()

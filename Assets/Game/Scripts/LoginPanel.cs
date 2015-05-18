@@ -14,9 +14,7 @@ public class LoginPanel : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-
-        LogServer.Instance.print("test");
-
+        
         // 檢查儲存的帳號
         UIInput Acc_keyin = GameObject.Find("ACC_Keyin").GetComponent<UIInput>();
         string str_user_acc = "";

@@ -93,7 +93,13 @@ public class SlotMachine : MonoBehaviour
                 bAutoBreak = false;
             }
         }
-	}
+
+        tileLines[0].Update_Sync();
+        tileLines[1].Update_Sync();
+        tileLines[2].Update_Sync();
+        tileLines[3].Update_Sync();
+        tileLines[4].Update_Sync();
+    }
     
     public void OnClick_Spin()
     {
@@ -224,7 +230,7 @@ public class SlotMachine : MonoBehaviour
         {
             cnt_finishstop = 0;
 
-            //Islotmachine2GM.OnStop();
+            Islotmachine2GM.OnStop();
         }
     }
 

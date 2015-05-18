@@ -30,11 +30,9 @@ public class TileLine : MonoBehaviour
         this.sw_Break = false;
 
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void Update_Sync()
     {
-
         if (sw_Move_all)
         {
             MoveSymbol();
