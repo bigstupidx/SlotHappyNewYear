@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class DisplayManager : MonoBehaviour {
 
@@ -17,9 +18,21 @@ public class DisplayManager : MonoBehaviour {
         Set_TableNumber("");
     }
 	
+    public int GetNowScore()
+    {
+        return Convert.ToInt32(Label_NowScore.text);
+    }
+
+    public int GetBetScore()
+    {
+        return Convert.ToInt32(Label_BetScore.text);
+    }
+
     public void Set_NowScore(string str)
     {
         Label_NowScore.text = str;
+
+        LogServer.Instance.print("Set_NowScore " + str);
     }
     public void Set_BetScore(string str)
     {

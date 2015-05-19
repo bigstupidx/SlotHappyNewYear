@@ -96,9 +96,8 @@ public class BetWheel : MonoBehaviour {
 
         //取顏色
         m_font_R1 = Number_Obj_2.bitmapFont;
-
     }
-
+    
     // Use this for initialization
     void Start () {
 

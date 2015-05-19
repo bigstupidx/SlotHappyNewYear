@@ -76,6 +76,16 @@ public class GUIManager : MonoBehaviour
         
     }
 
+    public int GetNowScore()
+    {
+        return displayManager.GetNowScore();
+    }
+
+    public int GetBetScore()
+    {
+        return displayManager.GetBetScore();
+    }
+
     public void OnWaitCreateExchange()
     {
         but_dollar.enabled = false;
@@ -122,6 +132,7 @@ public class GUIManager : MonoBehaviour
     {
         playbutManager.Allow_Stop();
     }
+
     public void AllowAutoStop()
     {
         playbutManager.Allow_AutoStop();
@@ -135,23 +146,19 @@ public class GUIManager : MonoBehaviour
         displayManager.Set_NowScore(score_own.ToString());
     }
 
-    public void OnClick_GetScore(string score)
+    public void OnClick_GetScore()
     {
-        // 贏得分數歸零、現在分數增加
-        displayManager.Set_WinScore("0");
-        displayManager.Set_NowScore(score);
-
         sw_animation = false;
     }
 
-    public void OnStop(bool win , SM_State state,JsonData jd, int score_own)
+    public void OnStop(bool win, bool b_scatter, SM_State state, JsonData jd)
     {
         // 更改局號
         string WagersID = (jd["WagersID"]).ToString();
         displayManager.Set_TableNumber(WagersID);
 
-        if(win)
-            StartCoroutine(GetFlow(state, jd,score_own));
+        if(win || b_scatter)
+            StartCoroutine(GetFlow(state, jd, b_scatter));
         else
         {
             StartCoroutine(WaitAWhile(1.0f, IguiManager2GM.Finish_OnStop));
@@ -174,16 +181,35 @@ public class GUIManager : MonoBehaviour
         displayManager.OpenAndSet_WindowMsg(content);
     }
 
-    public void OnFreeGameSpinWin(JsonData jd)
+    public void OnStop_FreeGameSpinStop(JsonData jd)
     {
-        StartCoroutine(ShowFreeGameSpinWin(jd));
-    }
+        try
+        {
+            // 更改局號
+            string WagersID = (jd["WagersID"]).ToString();
+            displayManager.Set_TableNumber(WagersID);
 
-    IEnumerator ShowFreeGameSpinWin(JsonData jd)
+            // 贏分
+            if (jd["Lines"].Count > 0 || jd["Scatter"].IsObject)
+                StartCoroutine(FreeGameSpinWin(jd));
+            else
+                StartCoroutine(WaitAWhile(1.0f, IguiManager2GM.Finish_OnStop));
+        }
+        catch(Exception EX)
+        {
+            LogServer.Instance.print("OnStop_FreeGameSpinStop Exception " + EX);
+        }
+    }
+    
+    IEnumerator FreeGameSpinWin(JsonData jd)
     {
         JsonData jd_lines = jd["Lines"];
-        int[] arr_lineid = new int[jd_lines.Count];
-        string[] arr_payoff = new string[jd_lines.Count];
+        int len_arr = jd_lines.Count;
+        if (jd["Scatter"].IsObject)
+            len_arr += 1;
+
+        int[] arr_lineid = new int[len_arr];
+        string[] arr_payoff = new string[len_arr];
         int sum_line_payoff = 0;
 
         // 剖析每一條線的資料
@@ -198,6 +224,18 @@ public class GUIManager : MonoBehaviour
 
             output += "i " + i + " , arr_lineid[i] " + arr_lineid[i] + " , arr_payoff[i] " + arr_payoff[i] + "\n";
         }
+
+        if (jd["Scatter"].IsObject)
+        {
+            double dou = (double)jd["Scatter"]["ID"];
+            int lineid_scatter = Convert.ToInt32(dou);
+
+            arr_lineid[len_arr - 1] = lineid_scatter;
+            arr_payoff[len_arr - 1] = (jd["Scatter"]["Payoff"]).ToString();
+
+            LogServer.Instance.print("增加一條 Scatter.");
+        }
+
         output += "sum_line_payoff is " + sum_line_payoff;
         LogServer.Instance.print(output);
 
@@ -211,6 +249,25 @@ public class GUIManager : MonoBehaviour
         // 顯示贏得分數
         displayManager.Set_WinScore(sum_line_payoff.ToString());
 
+
+        yield return new WaitForSeconds(1.0f);
+
+        bingoManger.CloseAllBingoLine();
+
+        int score_now = GetNowScore();
+        // 加上本次贏分
+        score_now += sum_line_payoff;
+        // 贏得分數歸零、現在分數增加
+        displayManager.Set_WinScore("0");
+        displayManager.Set_NowScore(score_now.ToString());
+
+        IguiManager2GM.Finish_OnStop();
+        
+        // Debug 檢查目前分數
+        double dou_1 = (double)jd["EndCredit"];
+        int EndCredit = Convert.ToInt32(dou_1);
+
+        LogServer.Instance.print("FreeGameSpinWin EndCredit " + EndCredit + " , score_now " + score_now);
     }
 
     IEnumerator WaitAWhile(float time,CallBack callback)
@@ -220,11 +277,15 @@ public class GUIManager : MonoBehaviour
         callback();
     }
 
-    IEnumerator GetFlow(SM_State state, JsonData jd, int score_own)
+    IEnumerator GetFlow(SM_State state, JsonData jd, bool sw_scatter)
     {
         JsonData jd_lines = jd["Lines"];
-        int[] arr_lineid = new int[jd_lines.Count];
-        string[] arr_payoff = new string[jd_lines.Count];
+        int len_arr = jd_lines.Count;
+        if (sw_scatter)
+            len_arr += 1;
+
+        int[] arr_lineid = new int[len_arr];
+        string[] arr_payoff = new string[len_arr];
         int sum_line_payoff = 0;
 
         // 剖析每一條線的資料
@@ -239,6 +300,18 @@ public class GUIManager : MonoBehaviour
 
             output += "i " + i + " , arr_lineid[i] " + arr_lineid[i] + " , arr_payoff[i] " + arr_payoff[i] + "\n";
         }
+
+        if(jd["Scatter"].IsObject)
+        {
+            double dou = (double)jd["Scatter"]["ID"];
+            int lineid_scatter = Convert.ToInt32(dou);
+
+            arr_lineid[len_arr - 1] = lineid_scatter;
+            arr_payoff[len_arr - 1] = (jd["Scatter"]["Payoff"]).ToString();
+
+            LogServer.Instance.print("增加一條 Scatter.");
+        }
+
         output += "sum_line_payoff is " + sum_line_payoff;
         LogServer.Instance.print(output);
 
@@ -259,9 +332,12 @@ public class GUIManager : MonoBehaviour
         
         if (state == SM_State.AUTOSPIN)
         {
+            int score_now = GetNowScore();
+            // 加上本次贏分
+            score_now += sum_line_payoff;
             // 贏得分數歸零、現在分數增加
             displayManager.Set_WinScore("0");
-            displayManager.Set_NowScore(score_own.ToString());
+            displayManager.Set_NowScore(score_now.ToString());
 
             IguiManager2GM.Finish_OnStop();
         }
@@ -296,12 +372,27 @@ public class GUIManager : MonoBehaviour
                 bingoManger.CloseAllBingoLine();
                 
                 bingoManger.ClosePayoff();
-                
+
+
                 cnt_idx++;
 
                 if (cnt_idx == arr_lineid.Length)
                     cnt_idx = 0;
             }
+
+            int score_now = GetNowScore();
+            // 加上本次贏分
+            score_now += sum_line_payoff;
+            // 贏得分數歸零、現在分數增加
+            displayManager.Set_WinScore("0");
+            displayManager.Set_NowScore(score_now.ToString());
+
+
+            // Debug 檢查目前分數
+            double dou_1 = (double)jd["EndCredit"];
+            int EndCredit = Convert.ToInt32(dou_1);
+
+            LogServer.Instance.print("GetFlow EndCredit " + EndCredit + " , score_now " + score_now);
 
             IguiManager2GM.Finish_OnStop();
         }
