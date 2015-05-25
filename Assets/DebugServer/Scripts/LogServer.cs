@@ -14,17 +14,19 @@ public class LogServer : MonoBehaviour
     static public LogServer Instance;
 
     private TcpClient tcpClient;
-
-    private LogServer _instance = null;
+    
 
 
 
     void Awake()
     {
-        DontDestroyOnLoad(this);
 
-        Connect();
-        Instance = this;
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(this);
+            Instance = this;
+            Connect();
+        }
     }
     public void print(string str)
     {

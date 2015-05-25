@@ -10,6 +10,7 @@ public struct Info_GameApplication
     public bool sw_freegame_waitslot;
     public bool sw_freegame_waitgui;
     public int idx_freegame;
+    public int credit_endgame;
 
     /*  0 : Normal
         1 : Autospin
@@ -23,6 +24,7 @@ public struct Info_GameApplication
         sw_freegame_waitslot = false;
         sw_freegame_waitgui = false;
         idx_freegame = 0;
+        credit_endgame = 0;
     }
 }
 
@@ -266,7 +268,11 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
                 // 顯示 停止鍵 
                 guiManager.AllowStop();
-            }           
+            }
+
+            string[] values = (jd[0]["data"]["Credit"]).ToString().Split('.');
+
+            m_GameAppInfo.credit_endgame = Convert.ToInt32(values[0]);
         }
     }
 
@@ -451,7 +457,11 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             if (cnt_line > 0)
                 b_win = true;
             if (m_jd_onBegingame[0]["data"]["Scatter"].IsObject)
+            {
                 b_scatter = true;
+                LogServer.Instance.print("ISlotMachine2GM.OnStop b_scatter is true");
+            }
+
             guiManager.OnStop(b_win, b_scatter, m_GameAppInfo.f_sm_state, m_jd_onBegingame[0]["data"]);
         } 
     }    
@@ -503,18 +513,28 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             }
             else
             {
-                double dou = (double)m_jd_onBegingame[0]["data"]["EndCredit"];
-                int EndCredit = Convert.ToInt32(dou);
-
-                // 更新可用分數
-                exchangePanel.OnChangeNowScore(EndCredit);
 
                 if (m_GameAppInfo.f_sm_state == SM_State.FREEGAME)
+                {
+                    double dou = (double)m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"][m_GameAppInfo.idx_freegame]["EndCredit"];
+                    int EndCredit = Convert.ToInt32(dou);
+                    // 更新可用分數
+                    exchangePanel.OnChangeNowScore(EndCredit);
+
                     m_GameAppInfo.sw_freegame_waitgui = false;
+                }
                 else if (m_GameAppInfo.f_sm_state == SM_State.AUTOSPIN)
+                {
+                    // 更新可用分數
+                    exchangePanel.OnChangeNowScore(m_GameAppInfo.credit_endgame);
+
                     Spin();
+                }
                 else if (m_GameAppInfo.f_sm_state == SM_State.NORMAL)
                 {
+                    // 更新可用分數
+                    exchangePanel.OnChangeNowScore(m_GameAppInfo.credit_endgame);
+
                     guiManager.AllowSpin();
 
                     m_but_allowInfo.Maxbet = true;
@@ -547,7 +567,8 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
         LogServer.Instance.print("cnt_freegame " + cnt_freegame);
 
-        int idx = 0;
+        m_GameAppInfo.idx_freegame = 0;
+
         do
         {
             yield return new WaitForSeconds(1.0f);
@@ -557,7 +578,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             yield return new WaitForSeconds(1.0f);
             
             // 剖析 Cards 欄位
-            string cards = (m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"][idx]["Cards"]).ToString();
+            string cards = (m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"][m_GameAppInfo.idx_freegame]["Cards"]).ToString();
             string[] tileinfo = cards.Split(',', '-');
 
             string str_show = "";
@@ -567,7 +588,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
                 tileinfo[i] = num.ToString("000");
                 str_show += tileinfo[i] + " ";
             }
-            LogServer.Instance.print("[Debug] tileinfo [" + idx + "] " + str_show);
+            LogServer.Instance.print("[Debug] tileinfo [" + m_GameAppInfo.idx_freegame + "] " + str_show);
 
             // 將資料塞入拉霸機
             slotmachine.SetTileSpriteInfo(tileinfo);
@@ -581,7 +602,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             }
 
             m_GameAppInfo.sw_freegame_waitgui = true;
-            guiManager.OnStop_FreeGameSpinStop(m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"][idx]);
+            guiManager.OnStop_FreeGameSpinStop(m_jd_onBegingame[0]["data"]["FreeGame"]["BonusInfo"][m_GameAppInfo.idx_freegame]);
             
             while (m_GameAppInfo.sw_freegame_waitgui)
             {
@@ -590,7 +611,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
 
             cnt_freegame--;
-            idx++;            
+            m_GameAppInfo.idx_freegame++;            
         }
         while (cnt_freegame > 0);
 
