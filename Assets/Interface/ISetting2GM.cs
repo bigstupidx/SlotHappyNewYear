@@ -2,4 +2,5 @@
 
     bool OpenAllow();
 
+    void Logout();
 }

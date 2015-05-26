@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+using System;
+using System.Collections;
+
 public class SoundManager : MonoBehaviour {
 
     public AudioSource audiosource;
@@ -7,30 +10,60 @@ public class SoundManager : MonoBehaviour {
     public AudioClip[] audioclips;
 
     float m_volume;
-
+   
     public void Play(int idx_music, bool loop)
     {
+        //LogServer.Instance.print("idx_music " + idx_music);
 
-        if(audio != null)
-            audio.Stop();
-
-        audio.volume = m_volume;
-
-        this.audio.loop = loop;
-
-        if (this.audio.loop == false)
+        try
         {
-            audio.PlayOneShot(audioclips[idx_music]);
-        }
-        else
+            if (audiosource != null)
+                audiosource.Stop();
+
+            audiosource.volume = m_volume;
+
+            this.audiosource.loop = loop;
+
+            if (this.audiosource.loop == false)
+            {
+                audiosource.clip = audioclips[idx_music];
+                audiosource.Play();
+            }
+            else
+            {
+                audiosource.clip = audioclips[idx_music];
+                audiosource.Play();
+            }
+        }catch(Exception EX)
         {
-            audio.clip = audioclips[idx_music];
-            audio.Play();
+            LogServer.Instance.print("SoundManager Play Exception " + EX);
         }
     }
 
     public void SetVolume(float value)
     {
         m_volume = value;
+    }
+
+    public void AddPlay(int idx_sound)
+    {
+        StartCoroutine(Func_PlayNext(idx_sound));
+    }
+
+    IEnumerator Func_PlayNext(int idx_sound)
+    {
+
+        bool done = false;
+        while (!done)
+        {
+            //print("audiosource.isPlaying " + audiosource.isPlaying);
+            if (!audiosource.isPlaying)
+            {
+                Play(idx_sound, false);
+                done = true;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 }

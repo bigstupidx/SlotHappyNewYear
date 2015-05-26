@@ -5,6 +5,9 @@ public class SettingPanel : MonoBehaviour {
 
     ISetting2GM Isetting2GM;
 
+    public MusicManager musicMgr;
+    public SoundManager soundMgr;
+
     public UIPanel Win_Setting;
     public GameObject GO_UserPanel;
 
@@ -13,7 +16,10 @@ public class SettingPanel : MonoBehaviour {
     public UISprite[] SP_Languages;
     public Material[] Mat_Languages;
     public Texture2D[] Tex_Resource;
-    
+
+    public GF_ButtonObject[] GF_Buttons;
+    public UILocalize[] UILocalizes; 
+
     private Dictionary<string, bool> Switchs;
 
 	// Use this for initialization
@@ -25,16 +31,17 @@ public class SettingPanel : MonoBehaviour {
 
         Switchs = new Dictionary<string, bool>();
         Switchs.Add("Win_SelectLanguage", true);
+        Switchs.Add("But_Music", true);
+        Switchs.Add("But_Sound", true);
 
         this.OnClick_ShowLanguageSelect();
         this.OnClick_SL_CN();
+
+        // 按鍵初始化
+        GF_Buttons[0].SetSpriteStatesName(0, "music_up.PNG", "music_down.PNG", "");
+        GF_Buttons[1].SetSpriteStatesName(0, "sound_up.PNG", "sound_down.PNG", "");
     }
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     public void OnClick_Open()
     {
         if (Isetting2GM.OpenAllow())
@@ -53,10 +60,60 @@ public class SettingPanel : MonoBehaviour {
 
     public void OnClick_Sound()
     {
+        if(Switchs["But_Sound"])
+        {
+            soundMgr.SetVolume(0.0f);
 
+            Switchs["But_Sound"] = false;
+            GF_Buttons[1].SetSpriteStatesName(0, "stop_sound_up.PNG", "stop_sound_down.PNG", "");
+            GF_Buttons[1].gameObject.SetActive(false);
+            GF_Buttons[1].gameObject.SetActive(true);
+            UILocalizes[1].key = "SoundOff";
+            UILocalizes[1].enabled = false;
+            UILocalizes[1].enabled = true;
+
+        }
+        else
+        {
+            soundMgr.SetVolume(1.0f);
+
+            Switchs["But_Sound"] = true;
+            GF_Buttons[1].SetSpriteStatesName(0, "sound_up.PNG", "sound_down.PNG", "");
+            GF_Buttons[1].gameObject.SetActive(false);
+            GF_Buttons[1].gameObject.SetActive(true);
+            UILocalizes[1].key = "SoundOn";
+            UILocalizes[1].enabled = false;
+            UILocalizes[1].enabled = true;
+
+        }
     }
+
     public void OnClick_Music()
     {
+        if (Switchs["But_Music"])
+        {
+            musicMgr.SetVolume(0.0f);
+
+            Switchs["But_Music"] = false;
+            GF_Buttons[0].SetSpriteStatesName(0, "stop_music_up.PNG", "stop_music_down.PNG", "");
+            GF_Buttons[0].gameObject.SetActive(false);
+            GF_Buttons[0].gameObject.SetActive(true);
+            UILocalizes[0].key = "MusicOff";
+            UILocalizes[0].enabled = false;
+            UILocalizes[0].enabled = true;
+        }
+        else
+        {
+            musicMgr.SetVolume(1.0f);
+
+            Switchs["But_Music"] = true;
+            GF_Buttons[0].SetSpriteStatesName(0, "music_up.PNG", "music_down.PNG", "");
+            GF_Buttons[0].gameObject.SetActive(false);
+            GF_Buttons[0].gameObject.SetActive(true);
+            UILocalizes[0].key = "MusicOn";
+            UILocalizes[0].enabled = false;
+            UILocalizes[0].enabled = true;
+        }
 
     }
     public void OnClick_BetRecord()
@@ -69,7 +126,7 @@ public class SettingPanel : MonoBehaviour {
     }
     public void OnClick_Logout()
     {
-
+        Isetting2GM.Logout();
     }
     public void OnClick_ShowLanguageSelect()
     {

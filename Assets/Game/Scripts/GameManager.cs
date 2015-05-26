@@ -64,7 +64,10 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
     public GUIManager guiManager;
 
     public SlotMachine slotmachine;
-    
+
+    public SoundManager soundMgr;
+    public MusicManager musicMgr;
+
     public static GameManager Instance;
 
     Info_GameApplication m_GameAppInfo;
@@ -76,6 +79,10 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
     {
         LogServer.Instance.print("Screen.width : " + Screen.width + " Screen.height : " + Screen.height);
         Instance = this;
+
+        soundMgr.SetVolume(1.0f);
+        musicMgr.SetVolume(1.0f);
+        musicMgr.Play(0);
     }
 
     // Use this for initialization
@@ -557,6 +564,7 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
 
     void IWinFreeGame2GM.OnClick_CloseWinFreeGame()
     {
+        musicMgr.Play(3);
         // 執行免費遊戲
         StartCoroutine(FreeGame_Spin());
     }
@@ -631,6 +639,20 @@ public class GameManager : RtmpS2CReceiverBase , IExchange2GM , ISlotMachine2GM 
             m_but_allowInfo.Exchange = true;
             m_but_allowInfo.Dollar = true;
         }
+
+
+        musicMgr.Play(0);
+    }
+
+    void ISetting2GM.Logout()
+    {
+        string domain = LoginManager.loginInfo.Domain;
+        string accountname = LoginManager.loginInfo.AccountName;
+
+        string url = "http://" + domain + "/app/WebService/view/display.php/Logout?username=" + accountname;
+
+        RtmpC2S.Close();
+        StartCoroutine(DoLoginout(url));
     }
 
     #region Table

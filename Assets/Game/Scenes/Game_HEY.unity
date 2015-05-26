@@ -2479,8 +2479,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 110
-  mHeight: 110
+  mWidth: 75
+  mHeight: 75
   mDepth: 26
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2497,7 +2497,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 11400000, guid: b3acc2ea2ed2fda4fa3a61f74f64ee3a, type: 2}
-  mSpriteName: Glow - Outer
+  mSpriteName: Highlight - Shadowed
   mFillCenter: 1
 --- !u!1 &42038514
 GameObject:
@@ -9819,7 +9819,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3035
+  startingRenderQueue: 3034
   mClipTexture: {fileID: 0}
   mAlpha: 0
   mClipping: 0
@@ -9854,6 +9854,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb650f08bac6d7d4693a82ba07f9dd8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicMgr: {fileID: 1862795408}
+  soundMgr: {fileID: 1646297505}
   Win_Setting: {fileID: 160718115}
   GO_UserPanel: {fileID: 454098447}
   Win_SelectLanguage: {fileID: 2080036429}
@@ -9871,6 +9873,12 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 319bc12155d290646a1eba2c8da0bc10, type: 3}
   - {fileID: 2800000, guid: 55a29907b60c4e643bc2c0b2bf0d69b7, type: 3}
   - {fileID: 2800000, guid: 93dc17f97061cb243ad5350a2489f836, type: 3}
+  GF_Buttons:
+  - {fileID: 1660873317}
+  - {fileID: 1424769775}
+  UILocalizes:
+  - {fileID: 253264417}
+  - {fileID: 1052995335}
 --- !u!1 &162821244
 GameObject:
   m_ObjectHideFlags: 0
@@ -10527,7 +10535,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3035
+  startingRenderQueue: 3034
   mClipTexture: {fileID: 0}
   mAlpha: 0
   mClipping: 0
@@ -11856,7 +11864,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 194403686}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -579.5, y: -459.972412, z: 0}
+  m_LocalPosition: {x: -579.5, y: -459.276947, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1738919468}
@@ -11874,14 +11882,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 194403689}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 1
   Func_normal:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   bClickDisable: 0
 --- !u!114 &194403689
 MonoBehaviour:
@@ -12504,7 +12518,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 203293001}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.5, y: -461.472412, z: 0}
+  m_LocalPosition: {x: 580.5, y: -460.776947, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1093028714}
@@ -12523,14 +12537,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 203293006}
+  SoundMgr: {fileID: 0}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 0
   Func_normal:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   bClickDisable: 1
 --- !u!114 &203293004
 MonoBehaviour:
@@ -12649,7 +12669,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205119191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.5, y: -461.472412, z: 0}
+  m_LocalPosition: {x: 580.5, y: -460.776947, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1718714652}
@@ -12718,14 +12738,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 205119195}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 0
   Func_normal:
-    GameObject: {fileID: 156229730}
+    target_GameObject: {fileID: 156229730}
     ComponentName: SlotMachine
     MethodName: OnClick_Spin
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 156229730}
+    target_GameObject: {fileID: 156229730}
     ComponentName: SlotMachine
     MethodName: OnClick_AutoSpin
+    Parameter: 
   bClickDisable: 1
 --- !u!114 &205119195
 MonoBehaviour:
@@ -20376,7 +20402,7 @@ Transform:
   m_GameObject: {fileID: 323312825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.33307433, y: 1.33307433, z: 1.33307433}
+  m_LocalScale: {x: 1.33295798, y: 1.33295798, z: 1.33295798}
   m_Children:
   - {fileID: 331192549}
   - {fileID: 156229731}
@@ -22424,7 +22450,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 354315694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -77.0400162, y: -487.972412, z: 0}
+  m_LocalPosition: {x: -77.0400162, y: -487.276978, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1252078772}
@@ -22441,14 +22467,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 354315697}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 1
   Func_normal:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   bClickDisable: 0
 --- !u!114 &354315697
 MonoBehaviour:
@@ -27679,7 +27711,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 64
   mHeight: 64
-  mDepth: 27
+  mDepth: 29
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -27939,7 +27971,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 449521996}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -589, y: 505.47998, z: 0}
+  m_LocalPosition: {x: -589, y: 504.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1708125965}
@@ -28059,14 +28091,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 449521999}
+  SoundMgr: {fileID: 0}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 0
   Func_normal:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   bClickDisable: 0
 --- !u!1 &450439747
 GameObject:
@@ -31451,7 +31489,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 11400000, guid: ee06c6f25b34a2942a886bfc382b5661, type: 2}
-  mSpriteName: rule_up.PNG
+  mSpriteName: rule_down.PNG
   mFillCenter: 1
 --- !u!1 &500081992
 GameObject:
@@ -34759,7 +34797,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 11400000, guid: ee06c6f25b34a2942a886bfc382b5661, type: 2}
-  mSpriteName: history_up.PNG
+  mSpriteName: history_down.PNG
   mFillCenter: 1
 --- !u!1 &549167842
 GameObject:
@@ -38903,7 +38941,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 618301743}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 588, y: 504.472412, z: 0}
+  m_LocalPosition: {x: 588, y: 503.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 922497083}
@@ -38971,14 +39009,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 618301747}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 1
   Func_normal:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   bClickDisable: 0
 --- !u!114 &618301747
 MonoBehaviour:
@@ -40875,7 +40919,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 647736484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -417.02002, y: 500.472412, z: 0}
+  m_LocalPosition: {x: -417.02002, y: 499.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -42904,7 +42948,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 677288700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -275.5, y: -489.472412, z: 0}
+  m_LocalPosition: {x: -275.5, y: -488.776978, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -43934,7 +43978,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 689834323}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 84.9553909, y: -417.472412, z: 0}
+  m_LocalPosition: {x: 84.9553909, y: -416.776917, z: 0}
   m_LocalScale: {x: .999899924, y: .999899924, z: .999899924}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -47317,6 +47361,7 @@ GameObject:
   - 114: {fileID: 752889286}
   - 114: {fileID: 752889284}
   - 114: {fileID: 752889285}
+  - 114: {fileID: 752889289}
   m_Layer: 5
   m_Name: BetLine
   m_TagString: Untagged
@@ -47331,7 +47376,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 752889282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 661.680054, y: -32.4288025, z: 0}
+  m_LocalPosition: {x: 661.680054, y: -32.3866196, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1544050698}
@@ -47497,6 +47542,33 @@ MonoBehaviour:
     mMethodName: OnClick_SelectBet
     mParameters: []
     oneShot: 0
+--- !u!114 &752889289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 752889282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380215e070faba249997f7c4e612e541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uibutton: {fileID: 752889288}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 1
+  Func_normal:
+    target_GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+    Parameter: 
+  Func_longpress:
+    target_GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+    Parameter: 
+  bClickDisable: 0
 --- !u!1 &753236799
 GameObject:
   m_ObjectHideFlags: 0
@@ -57167,7 +57239,7 @@ BoxCollider:
   m_GameObject: {fileID: 924776488}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 162, y: 164, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
@@ -57246,7 +57318,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 11400000, guid: 52d3f37f2f749a04e958b697d77c9243, type: 2}
-  mSpriteName: button_y.PNG
+  mSpriteName: tich_box.PNG
   mFillCenter: 1
 --- !u!1 &926557021
 GameObject:
@@ -61347,7 +61419,7 @@ BoxCollider:
   m_GameObject: {fileID: 980889320}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 164, y: 164, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
@@ -61426,7 +61498,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 11400000, guid: 52d3f37f2f749a04e958b697d77c9243, type: 2}
-  mSpriteName: button_y.PNG
+  mSpriteName: button_gray.PNG
   mFillCenter: 1
 --- !u!1 &981563015
 GameObject:
@@ -64195,7 +64267,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1049881992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 313.000183, y: -417.47998, z: 0}
+  m_LocalPosition: {x: 313.000183, y: -416.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -68849,7 +68921,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1122551451}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -283, y: -493.47998, z: 0}
+  m_LocalPosition: {x: -283, y: -492.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -68942,7 +69014,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1123154049}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -450.472412, z: 0}
+  m_LocalPosition: {x: 0, y: -449.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -68983,7 +69055,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 7.74731159
+  aspectRatio: 7.73655891
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -69879,7 +69951,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1440, y: 1081, z: 0}
+  m_Size: {x: 1440, y: 1080, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1140080701
 MonoBehaviour:
@@ -69913,12 +69985,12 @@ MonoBehaviour:
   mColor: {r: 0, g: 0, b: 0, a: .588235319}
   mPivot: 4
   mWidth: 1440
-  mHeight: 1081
+  mHeight: 1080
   mDepth: 5
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.33209991
+  aspectRatio: 1.33333337
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -70768,6 +70840,8 @@ MonoBehaviour:
   exchangePanel: {fileID: 657573541}
   guiManager: {fileID: 1157598149}
   slotmachine: {fileID: 156229732}
+  soundMgr: {fileID: 1646297505}
+  musicMgr: {fileID: 1862795408}
 --- !u!114 &1157598148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73960,7 +74034,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1225043715}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 155.000061, y: 506.47998, z: 0}
+  m_LocalPosition: {x: 155.000061, y: 505.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -77929,7 +78003,7 @@ Transform:
   m_GameObject: {fileID: 1297704223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .001387925, y: .001387925, z: .001387925}
+  m_LocalScale: {x: .00138985412, y: .00138985412, z: .00138985412}
   m_Children:
   - {fileID: 1764387511}
   - {fileID: 323312826}
@@ -82429,7 +82503,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1368899741}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 502.472412, z: 0}
+  m_LocalPosition: {x: 0, y: 501.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -82470,7 +82544,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 18.4487171
+  aspectRatio: 18.4230766
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -85401,8 +85475,9 @@ GameObject:
   - 114: {fileID: 1424769777}
   - 65: {fileID: 1424769776}
   - 114: {fileID: 1424769774}
+  - 114: {fileID: 1424769775}
   m_Layer: 5
-  m_Name: button
+  m_Name: sound_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85460,6 +85535,37 @@ MonoBehaviour:
   callWhenFinished: 
   from: {r: 1, g: 1, b: 1, a: 1}
   to: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &1424769775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1424769772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380215e070faba249997f7c4e612e541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uibutton: {fileID: 1424769777}
+  SoundMgr: {fileID: 0}
+  SpriteStates:
+  - uisprite: {fileID: 865563392}
+    Normal: 
+    Pressed: 
+    Disabled: 
+  Button_Sound:
+    idx_sound: 0
+  Func_normal:
+    target_GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+    Parameter: 
+  Func_longpress:
+    target_GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+    Parameter: 
+  bClickDisable: 0
 --- !u!65 &1424769776
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85493,12 +85599,16 @@ MonoBehaviour:
   dragHighlight: 0
   hoverSprite: 
   pressedSprite: button_b.PNG
-  disabledSprite: 
+  disabledSprite: button_gray.PNG
   hoverSprite2D: {fileID: 0}
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick: []
+  onClick:
+  - mTarget: {fileID: 160718117}
+    mMethodName: OnClick_Sound
+    mParameters: []
+    oneShot: 0
 --- !u!114 &1424769778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86024,7 +86134,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1438120769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 89, y: -493.472412, z: 0}
+  m_LocalPosition: {x: 89, y: -492.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -87347,8 +87457,9 @@ GameObject:
   - 65: {fileID: 1465963441}
   - 114: {fileID: 1465963440}
   - 114: {fileID: 1465963439}
+  - 114: {fileID: 1465963444}
   m_Layer: 5
-  m_Name: button
+  m_Name: quit_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87470,7 +87581,11 @@ MonoBehaviour:
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick: []
+  onClick:
+  - mTarget: {fileID: 160718117}
+    mMethodName: OnClick_Logout
+    mParameters: []
+    oneShot: 0
 --- !u!114 &1465963443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87522,6 +87637,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 52d3f37f2f749a04e958b697d77c9243, type: 2}
   mSpriteName: button_y.PNG
   mFillCenter: 1
+--- !u!114 &1465963444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1465963437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380215e070faba249997f7c4e612e541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uibutton: {fileID: 1465963442}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 0
+  Func_normal:
+    target_GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+    Parameter: 
+  Func_longpress:
+    target_GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+    Parameter: 
+  bClickDisable: 1
 --- !u!1 &1467796328
 GameObject:
   m_ObjectHideFlags: 0
@@ -90257,7 +90399,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1440, y: 1081, z: 0}
+  m_Size: {x: 1440, y: 1080, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1516523245
 MonoBehaviour:
@@ -90291,12 +90433,12 @@ MonoBehaviour:
   mColor: {r: 0, g: 0, b: 0, a: .70588237}
   mPivot: 4
   mWidth: 1440
-  mHeight: 1081
+  mHeight: 1080
   mDepth: 0
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.33209991
+  aspectRatio: 1.33333337
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -91964,9 +92106,9 @@ MonoBehaviour:
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
   duration: .200000003
   dragHighlight: 0
-  hoverSprite: 
-  pressedSprite: 
-  disabledSprite: 
+  hoverSprite: X Mark
+  pressedSprite: X Mark
+  disabledSprite: X Mark
   hoverSprite2D: {fileID: 0}
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
@@ -93067,7 +93209,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1563814853}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.5, y: -461.472412, z: 0}
+  m_LocalPosition: {x: 580.5, y: -460.776947, z: 0}
   m_LocalScale: {x: .999900043, y: .999900043, z: .999900043}
   m_Children:
   - {fileID: 1258507208}
@@ -93135,14 +93277,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 1563814857}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 13
   Func_normal:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   bClickDisable: 1
 --- !u!114 &1563814857
 MonoBehaviour:
@@ -97998,6 +98146,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f9721f4c9eee6474a9ee779a3ab37cfb, type: 3}
   - {fileID: 8300000, guid: 144f67d6100860c4d8aa7824dadaa196, type: 3}
   - {fileID: 8300000, guid: 6891c64c0a931cc498779117e337bbc9, type: 3}
+  - {fileID: 8300000, guid: 6a9c28875a7ef5f488b5081b83c6bbf3, type: 3}
 --- !u!4 &1646297506
 Transform:
   m_ObjectHideFlags: 0
@@ -98018,8 +98167,8 @@ AudioSource:
   m_GameObject: {fileID: 1646297504}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 314ef7292f8669445afaa8d6ed93f3f4, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -98844,8 +98993,9 @@ GameObject:
   - 114: {fileID: 1660873321}
   - 114: {fileID: 1660873320}
   - 65: {fileID: 1660873319}
+  - 114: {fileID: 1660873317}
   m_Layer: 5
-  m_Name: button
+  m_Name: music_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98864,6 +99014,37 @@ Transform:
   - {fileID: 652572634}
   m_Father: {fileID: 420526637}
   m_RootOrder: 0
+--- !u!114 &1660873317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1660873315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380215e070faba249997f7c4e612e541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uibutton: {fileID: 1660873320}
+  SoundMgr: {fileID: 0}
+  SpriteStates:
+  - uisprite: {fileID: 652572635}
+    Normal: 
+    Pressed: 
+    Disabled: 
+  Button_Sound:
+    idx_sound: 0
+  Func_normal:
+    target_GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+    Parameter: 
+  Func_longpress:
+    target_GameObject: {fileID: 0}
+    ComponentName: 
+    MethodName: 
+    Parameter: 
+  bClickDisable: 0
 --- !u!65 &1660873319
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98897,12 +99078,16 @@ MonoBehaviour:
   dragHighlight: 0
   hoverSprite: 
   pressedSprite: button_b.PNG
-  disabledSprite: 
+  disabledSprite: button_gray.PNG
   hoverSprite2D: {fileID: 0}
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick: []
+  onClick:
+  - mTarget: {fileID: 160718117}
+    mMethodName: OnClick_Music
+    mParameters: []
+    oneShot: 0
 --- !u!114 &1660873321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100319,7 +100504,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1688092390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -183.000046, y: 505.472412, z: 0}
+  m_LocalPosition: {x: -183.000046, y: 504.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 665399123}
@@ -102878,7 +103063,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3022
+  startingRenderQueue: 3021
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -105494,7 +105679,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1774763704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 330.499939, y: 505.472412, z: 0}
+  m_LocalPosition: {x: 330.499939, y: 504.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 964269691}
@@ -105562,14 +105747,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 1774763708}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 1
   Func_normal:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   bClickDisable: 0
 --- !u!114 &1774763708
 MonoBehaviour:
@@ -107450,7 +107641,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1806322722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -261.73642, y: -417.472412, z: 0}
+  m_LocalPosition: {x: -261.73642, y: -416.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -114354,7 +114545,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1911338484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 321.099335, y: -486.972412, z: 0}
+  m_LocalPosition: {x: 321.099335, y: -486.276978, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}
@@ -117463,7 +117654,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3035
+  startingRenderQueue: 3034
   mClipTexture: {fileID: 0}
   mAlpha: 0
   mClipping: 0
@@ -118749,7 +118940,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2023876281}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 330.200104, y: -493.47998, z: 0}
+  m_LocalPosition: {x: 330.200104, y: -492.776917, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 288404938}
@@ -120694,7 +120885,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2042258755}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.5, y: -461.472412, z: 0}
+  m_LocalPosition: {x: 580.5, y: -460.776947, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1304385733}
@@ -120712,14 +120903,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uibutton: {fileID: 2042258758}
+  SoundMgr: {fileID: 1646297505}
+  SpriteStates: []
+  Button_Sound:
+    idx_sound: 0
   Func_normal:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   Func_longpress:
-    GameObject: {fileID: 0}
+    target_GameObject: {fileID: 0}
     ComponentName: 
     MethodName: 
+    Parameter: 
   bClickDisable: 1
 --- !u!114 &2042258758
 MonoBehaviour:
@@ -122763,7 +122960,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2073573997}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 87.5, y: -486.972351, z: 0}
+  m_LocalPosition: {x: 87.5, y: -486.276978, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 345529483}

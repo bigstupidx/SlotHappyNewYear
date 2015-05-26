@@ -3,7 +3,7 @@ using UnityEngine;
 
 // 滾輪管理器
 public class WheelManager : MonoBehaviour {
-
+    
     private Dictionary<string, bool> dic_wheelstate;
 
     public UISprite sprite_dark;

@@ -6,14 +6,36 @@ using System.Reflection;
 [System.Serializable]
 public struct Func
 {
-    public GameObject GameObject;
+    public GameObject target_GameObject;
     public string ComponentName;
     public string MethodName;
+    public string Parameter;
+}
+
+[System.Serializable]
+public struct SpriteState
+{
+    public UISprite uisprite;
+    public string Normal;
+    public string Pressed;
+    public string Disabled;
+}
+
+[System.Serializable]
+public struct ButtonSound
+{
+    public int idx_sound;
 }
 
 public class GF_ButtonObject : MonoBehaviour
 {
     public UIButton uibutton;
+    public SoundManager SoundMgr;
+
+    // 需要隨按鈕改變狀額外的圖片
+    public SpriteState[] SpriteStates;
+
+    public ButtonSound Button_Sound;
 
     // 要呼叫的方法
     public Func Func_normal;
@@ -68,6 +90,7 @@ public class GF_ButtonObject : MonoBehaviour
         switch (state)
         {
             case "Normal":
+                SetSprite("Normal");
                 gameObject.SetActive(true);
                 uibutton.enabled = true;
                 uibutton.SetState(UIButtonColor.State.Normal, false);
@@ -79,6 +102,7 @@ public class GF_ButtonObject : MonoBehaviour
                 uibutton.SetState(UIButtonColor.State.Pressed, false);
                 break;
             case "Disabled":
+                SetSprite("Disabled");
                 uibutton.enabled = false;
                 uibutton.SetState(UIButtonColor.State.Disabled, false);
                 break;
@@ -92,6 +116,11 @@ public class GF_ButtonObject : MonoBehaviour
     {
         if (uibutton.state != UIButtonColor.State.Disabled && uibutton.enabled && !haveDone)
         {
+            if(SoundMgr != null)
+            {
+                SoundMgr.Play(Button_Sound.idx_sound, false);
+            }
+
             //haveDone = true;
 
             if (bClickDisable)
@@ -107,19 +136,32 @@ public class GF_ButtonObject : MonoBehaviour
 
     public void OnPress()
     {
+        // 按下
         if (bpressing)
         {
+            SetSprite("Normal");
             //print("close");
             bpressing = false;
         }
+        // 彈起
         else
         {
+            SetSprite("Pressed");
             //print("open");
             bpressing = true;
 
             fpresstime_first = Time.time;
         }
     }       
+
+    public void SetSpriteStatesName(int idx,string normal,string pressed,string disabled)
+    {
+        SpriteStates[idx].Normal = normal;
+        SpriteStates[idx].Pressed = pressed;
+        SpriteStates[idx].Disabled = disabled;
+
+        SetSprite("Normal");        
+    }
 
     private void CallLua(string lua_gameObject,string lua_methodname,string str_parms)
     {
@@ -141,18 +183,42 @@ public class GF_ButtonObject : MonoBehaviour
     {
         if(str == "LongPress")
         {
-            object obj = Func_longpress.GameObject.GetComponent(Func_longpress.ComponentName);
-            Type thisType = Func_longpress.GameObject.GetComponent(Func_longpress.ComponentName).GetType();
+            object obj = Func_longpress.target_GameObject.GetComponent(Func_longpress.ComponentName);
+            Type thisType = Func_longpress.target_GameObject.GetComponent(Func_longpress.ComponentName).GetType();
             MethodInfo theMethod = thisType.GetMethod(Func_longpress.MethodName);
-            theMethod.Invoke(obj,null);
+            
+            if (string.IsNullOrEmpty(Func_longpress.Parameter))
+                theMethod.Invoke(obj, null);
+            else
+                theMethod.Invoke(obj, new object[] { Func_longpress.Parameter });
         }
         else if(str == "NormalPress")
         {
-            object obj = Func_normal.GameObject.GetComponent(Func_normal.ComponentName);
-            Type thisType = Func_normal.GameObject.GetComponent(Func_normal.ComponentName).GetType();
+            object obj = Func_normal.target_GameObject.GetComponent(Func_normal.ComponentName);
+            Type thisType = Func_normal.target_GameObject.GetComponent(Func_normal.ComponentName).GetType();
             MethodInfo theMethod = thisType.GetMethod(Func_normal.MethodName);
-            theMethod.Invoke(obj, null);
 
+            if(string.IsNullOrEmpty(Func_normal.Parameter))
+                theMethod.Invoke(obj, null);
+            else
+                theMethod.Invoke(obj, new object[] { Func_normal.Parameter });
+
+        }
+    }
+    
+    private void SetSprite(string state)
+    {
+        if(SpriteStates.Length > 0)
+        {
+            for (int i = 0; i < SpriteStates.Length; i++)
+            {
+                if (state == "Normal")
+                    SpriteStates[i].uisprite.spriteName = SpriteStates[i].Normal;
+                else if (state == "Pressed")
+                    SpriteStates[i].uisprite.spriteName = SpriteStates[i].Pressed;
+                else if (state == "Disabled")
+                    SpriteStates[i].uisprite.spriteName = SpriteStates[i].Disabled;
+            }
         }
     }
 }

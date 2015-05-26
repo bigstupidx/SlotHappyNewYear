@@ -128,8 +128,8 @@ public class SlotMachine : MonoBehaviour
 
     void StartRun()
     {
-
-        StartCoroutine(PlayNectSound());
+        //soundMgr.Play(0, false);
+        soundMgr.AddPlay(2);
 
         cnt_finishstop = 0;
 
@@ -221,7 +221,6 @@ public class SlotMachine : MonoBehaviour
     // 當TileLine完成停止
     public void FinishSpin()
     {
-
         soundMgr.Play(3, false);
 
         cnt_finishstop++;
@@ -233,19 +232,5 @@ public class SlotMachine : MonoBehaviour
             Islotmachine2GM.OnStop();
         }
     }
-
-    IEnumerator PlayNectSound()
-    {
-        bool done = false;
-        while (!done)
-        {
-            if (!soundMgr.audiosource.isPlaying)
-            {
-                soundMgr.Play(2, false);
-                done = true;
-            }
-
-            yield return new WaitForEndOfFrame();
-        }
-    }
+    
 }
